@@ -231,6 +231,11 @@ export default function Home() {
           <GameCard href="/sentences" emoji="🏗️" title="Sentences" desc="Build sentences" color="from-teal-500 to-emerald-600" />
           <GameCard href="/verbs" emoji="🔄" title="Verbs" desc="Conjugation trainer" color="from-lime-500 to-green-600" />
           <GameCard href="/quiz" emoji="🧠" title="Quiz" desc="Multiple choice" color="from-indigo-500 to-violet-600" />
+          <GameCard href="/grammar-practice" emoji="📐" title="Grammar" desc="Interactive drills" color="from-cyan-500 to-blue-600" />
+          <GameCard href="/dialogues" emoji="💬" title="Dialogues" desc="Practice conversations" color="from-pink-500 to-rose-600" />
+          <GameCard href="/listening-comp" emoji="🎧" title="Listen & Learn" desc="Audio comprehension" color="from-sky-500 to-indigo-600" />
+          <GameCard href="/reading-comp" emoji="📖" title="Reading" desc="Text comprehension" color="from-emerald-500 to-teal-600" />
+          <GameCard href="/practice-mistakes" emoji="❌" title="Mistakes" desc="Practice wrong answers" color="from-amber-500 to-red-600" />
         </div>
 
         {/* Categories */}

@@ -61,6 +61,17 @@ interface ProgressData {
   reviewSessions: number;
   dailyChallengeDate: string | null;
   dailyChallengeCompleted: boolean;
+  // Practice mistakes
+  wrongAnswers: string[]; // word keys that were answered incorrectly
+  // Per-word accuracy
+  wordAccuracy: Record<string, { correct: number; total: number }>;
+  // Double XP
+  doubleXPExpiry: string | null; // ISO timestamp
+  // Streak repair
+  lastStreakValue: number;
+  // Settings
+  textSize: "small" | "medium" | "large";
+  speechRate: number; // 0.5 to 1.5
 }
 
 interface AchievementStatsResult {
@@ -129,6 +140,21 @@ interface ProgressContextType {
   isDailyChallengeDone: () => boolean;
   exportProgress: () => string;
   importProgress: (data: string) => boolean;
+  // Practice mistakes
+  recordWrongAnswer: (wordKey: string) => void;
+  getWrongAnswers: () => string[];
+  clearWrongAnswers: () => void;
+  // Word accuracy
+  recordWordAttempt: (wordKey: string, correct: boolean) => void;
+  getWordAccuracy: (wordKey: string) => { correct: number; total: number; pct: number };
+  // Double XP
+  activateDoubleXP: () => void;
+  isDoubleXPActive: () => boolean;
+  // Streak repair
+  repairStreak: () => boolean;
+  // Settings
+  setTextSize: (size: "small" | "medium" | "large") => void;
+  setSpeechRate: (rate: number) => void;
 }
 
 const ProgressContext = createContext<ProgressContextType | null>(null);
@@ -171,6 +197,12 @@ function getDefaultProgress(): ProgressData {
     reviewSessions: 0,
     dailyChallengeDate: null,
     dailyChallengeCompleted: false,
+    wrongAnswers: [],
+    wordAccuracy: {},
+    doubleXPExpiry: null,
+    lastStreakValue: 0,
+    textSize: "medium",
+    speechRate: 0.85,
   };
 }
 
@@ -193,7 +225,7 @@ function checkAndUpdateStreak(data: ProgressData): ProgressData {
         lastPracticeDate: today,
       };
     }
-    return { ...data, currentStreak: 0 };
+    return { ...data, currentStreak: 0, lastStreakValue: data.currentStreak };
   }
   return data;
 }
@@ -220,6 +252,12 @@ function loadProgress(): ProgressData {
     merged.reviewSessions = data.reviewSessions ?? 0;
     merged.dailyChallengeDate = data.dailyChallengeDate ?? null;
     merged.dailyChallengeCompleted = data.dailyChallengeCompleted ?? false;
+    merged.wrongAnswers = data.wrongAnswers ?? [];
+    merged.wordAccuracy = data.wordAccuracy ?? {};
+    merged.doubleXPExpiry = data.doubleXPExpiry ?? null;
+    merged.lastStreakValue = data.lastStreakValue ?? 0;
+    merged.textSize = data.textSize ?? "medium";
+    merged.speechRate = data.speechRate ?? 0.85;
     return checkAndUpdateStreak(merged);
   } catch {
     return getDefaultProgress();
@@ -303,7 +341,9 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   const addXP = useCallback(
     (amount: number, _reason?: string) => {
       setProgress((prev) => {
-        const newXP = prev.xp + amount;
+        const isDouble = prev.doubleXPExpiry && new Date(prev.doubleXPExpiry) > new Date();
+        const finalAmount = isDouble ? amount * 2 : amount;
+        const newXP = prev.xp + finalAmount;
         const oldLevel = prev.level;
         const newLevel = getLevelFromXP(newXP);
         if (newLevel > oldLevel) {
@@ -528,6 +568,21 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         };
       });
       addXP(50);
+      // Find achievement name for toast
+      try {
+        const { achievements } = require("@/data/achievements");
+        const a = achievements.find((ach: { id: string }) => ach.id === id);
+        if (a) {
+          showToast({
+            type: "achievement",
+            title: a.name,
+            message: a.description,
+            emoji: a.emoji,
+          });
+        }
+      } catch {
+        // ignore
+      }
     },
     [setProgress, addXP]
   );
@@ -643,17 +698,25 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   const purchaseReward = useCallback(
     (id: string, cost: number) => {
       if (progress.xp < cost) return false;
-      if (progress.purchasedRewards.includes(id)) return false;
-      const reward = { id };
-      setProgress((prev) => ({
-        ...prev,
-        xp: prev.xp - cost,
-        purchasedRewards: [...prev.purchasedRewards, reward.id],
-        streakFreezes:
-          id === "streak-freeze"
-            ? prev.streakFreezes + 1
-            : prev.streakFreezes,
-      }));
+      if (id !== "double-xp" && id !== "hearts-refill" && progress.purchasedRewards.includes(id)) return false;
+      setProgress((prev) => {
+        const next = {
+          ...prev,
+          xp: prev.xp - cost,
+          purchasedRewards: prev.purchasedRewards.includes(id) ? prev.purchasedRewards : [...prev.purchasedRewards, id],
+          streakFreezes: id === "streak-freeze" ? prev.streakFreezes + 1 : prev.streakFreezes,
+          doubleXPExpiry: id === "double-xp" ? new Date(Date.now() + 15 * 60 * 1000).toISOString() : prev.doubleXPExpiry,
+        };
+        return next;
+      });
+      if (id === "double-xp") {
+        showToast({
+          type: "xp",
+          title: "Double XP Active!",
+          message: "15 minutes of doubled XP!",
+          emoji: "⚡",
+        });
+      }
       return true;
     },
     [progress.xp, progress.purchasedRewards, setProgress]
@@ -819,6 +882,100 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     [setProgress]
   );
 
+  const recordWrongAnswer = useCallback(
+    (wordKey: string) => {
+      setProgress((prev) => {
+        if (prev.wrongAnswers.includes(wordKey)) return prev;
+        return { ...prev, wrongAnswers: [...prev.wrongAnswers, wordKey] };
+      });
+    },
+    [setProgress]
+  );
+
+  const getWrongAnswers = useCallback(() => {
+    return progress.wrongAnswers;
+  }, [progress.wrongAnswers]);
+
+  const clearWrongAnswers = useCallback(() => {
+    setProgress((prev) => ({ ...prev, wrongAnswers: [] }));
+  }, [setProgress]);
+
+  const recordWordAttempt = useCallback(
+    (wordKey: string, correct: boolean) => {
+      setProgress((prev) => {
+        const existing = prev.wordAccuracy[wordKey] ?? { correct: 0, total: 0 };
+        return {
+          ...prev,
+          wordAccuracy: {
+            ...prev.wordAccuracy,
+            [wordKey]: {
+              correct: existing.correct + (correct ? 1 : 0),
+              total: existing.total + 1,
+            },
+          },
+        };
+      });
+    },
+    [setProgress]
+  );
+
+  const getWordAccuracy = useCallback(
+    (wordKey: string) => {
+      const acc = progress.wordAccuracy[wordKey] ?? { correct: 0, total: 0 };
+      return {
+        ...acc,
+        pct: acc.total > 0 ? Math.round((acc.correct / acc.total) * 100) : 0,
+      };
+    },
+    [progress.wordAccuracy]
+  );
+
+  const activateDoubleXP = useCallback(() => {
+    const expiry = new Date(Date.now() + 15 * 60 * 1000).toISOString();
+    setProgress((prev) => ({ ...prev, doubleXPExpiry: expiry }));
+    showToast({
+      type: "xp",
+      title: "Double XP Active!",
+      message: "15 minutes of doubled XP!",
+      emoji: "⚡",
+    });
+  }, [setProgress]);
+
+  const isDoubleXPActive = useCallback(() => {
+    if (!progress.doubleXPExpiry) return false;
+    return new Date(progress.doubleXPExpiry) > new Date();
+  }, [progress.doubleXPExpiry]);
+
+  const repairStreak = useCallback(() => {
+    if (progress.lastStreakValue <= 0) return false;
+    setProgress((prev) => ({
+      ...prev,
+      currentStreak: prev.lastStreakValue,
+      lastStreakValue: 0,
+    }));
+    showToast({
+      type: "streak",
+      title: "Streak Repaired!",
+      message: `Your ${progress.lastStreakValue}-day streak is back!`,
+      emoji: "🔧",
+    });
+    return true;
+  }, [progress.lastStreakValue, setProgress]);
+
+  const setTextSize = useCallback(
+    (size: "small" | "medium" | "large") => {
+      setProgress((prev) => ({ ...prev, textSize: size }));
+    },
+    [setProgress]
+  );
+
+  const setSpeechRate = useCallback(
+    (rate: number) => {
+      setProgress((prev) => ({ ...prev, speechRate: rate }));
+    },
+    [setProgress]
+  );
+
   return (
     <ProgressContext.Provider
       value={{
@@ -863,6 +1020,16 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         isDailyChallengeDone,
         exportProgress,
         importProgress,
+        recordWrongAnswer,
+        getWrongAnswers,
+        clearWrongAnswers,
+        recordWordAttempt,
+        getWordAccuracy,
+        activateDoubleXP,
+        isDoubleXPActive,
+        repairStreak,
+        setTextSize,
+        setSpeechRate,
       }}
     >
       {children}

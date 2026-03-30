@@ -9,10 +9,18 @@ import { speakSpanish } from "@/lib/audio";
 export default function VerbsPage() {
   const [mode, setMode] = useState<"browse" | "practice">("browse");
   const [selectedVerb, setSelectedVerb] = useState<string | null>(null);
+  const [selectedTense, setSelectedTense] = useState<"present" | "preterite" | "imperfect" | "future">("present");
   const verb = useMemo(
     () => verbs.find((v) => v.infinitive === selectedVerb),
     [selectedVerb]
   );
+
+  const tenses: { key: "present" | "preterite" | "imperfect" | "future"; label: string }[] = [
+    { key: "present", label: "Present" },
+    { key: "preterite", label: "Preterite" },
+    { key: "imperfect", label: "Imperfect" },
+    { key: "future", label: "Future" },
+  ];
 
   if (mode === "practice") {
     return (
@@ -75,8 +83,24 @@ export default function VerbsPage() {
               </div>
             </div>
 
+          <div className="flex gap-2 mb-4 flex-wrap">
+                {tenses.map((t) => (
+                  <button
+                    key={t.key}
+                    onClick={() => setSelectedTense(t.key)}
+                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
+                      selectedTense === t.key
+                        ? "bg-indigo-500 text-white"
+                        : "bg-white/10 text-gray-400 hover:text-white"
+                    }`}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+
             <div className="space-y-2">
-              {verb.conjugations.present.map((conj) => (
+              {verb.conjugations[selectedTense].map((conj) => (
                 <div
                   key={conj.person}
                   className="flex items-center justify-between p-3 rounded-lg bg-white/5"

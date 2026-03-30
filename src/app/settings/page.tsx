@@ -12,6 +12,8 @@ export default function SettingsPage() {
     setDailyGoalTarget,
     exportProgress,
     importProgress,
+    setTextSize,
+    setSpeechRate,
   } = useProgress();
   const { theme, toggleTheme } = useTheme();
   const [importText, setImportText] = useState("");
@@ -66,6 +68,46 @@ export default function SettingsPage() {
               <span className="text-gray-300">Dark / Light Mode</span>
               <span className="text-xl">{theme === "dark" ? "🌙" : "☀️"}</span>
             </button>
+          </div>
+
+          {/* Text Size */}
+          <div className="bg-white/5 rounded-2xl p-5 border border-white/5">
+            <h3 className="font-bold text-white mb-3">🔤 Text Size</h3>
+            <div className="grid grid-cols-3 gap-2">
+              {(["small", "medium", "large"] as const).map((s) => (
+                <button
+                  key={s}
+                  onClick={() => setTextSize(s)}
+                  className={`py-2 rounded-xl text-sm font-bold transition-all ${
+                    progress.textSize === s
+                      ? "bg-indigo-500 text-white"
+                      : "bg-white/5 text-gray-400 hover:bg-white/10"
+                  }`}
+                >
+                  {s === "small" ? "A" : s === "medium" ? "A" : "A"}
+                  <span className="text-xs ml-1">{s}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Speech Rate */}
+          <div className="bg-white/5 rounded-2xl p-5 border border-white/5">
+            <h3 className="font-bold text-white mb-3">🔊 Speech Rate</h3>
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-gray-400">Slow</span>
+              <input
+                type="range"
+                min="0.5"
+                max="1.5"
+                step="0.1"
+                value={progress.speechRate}
+                onChange={(e) => setSpeechRate(parseFloat(e.target.value))}
+                className="flex-1 accent-indigo-500"
+              />
+              <span className="text-sm text-gray-400">Fast</span>
+            </div>
+            <p className="text-center text-sm text-gray-500 mt-2">{progress.speechRate}x</p>
           </div>
 
           {/* Daily Goal */}
