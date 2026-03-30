@@ -2,48 +2,70 @@
 
 ## Current State
 
-**Status**: Spanish learning app built and deployed
-
-The starter template has been expanded into "¡Aprende!" - an interactive Spanish learning app with flashcards, quizzes, and progress tracking.
+**Status**: Fully featured Spanish learning app with all requested features built and deployed.
 
 ## Recently Completed
 
-- [x] Spanish vocabulary data with 6 categories (Greetings, Food, Numbers, Colors, Animals, Travel)
-- [x] Flip-card flashcard component with pronunciation guides and example sentences
-- [x] Multiple-choice quiz component with scoring and feedback
-- [x] ProgressContext with localStorage persistence (learned words, streaks, quiz scores)
-- [x] Home page dashboard with stats, overall progress bar, and category cards
-- [x] Learn/[category] page with flashcard and quiz modes
-- [x] Quick Quiz page for category-based or all-words quizzes
-- [x] CSS animations (flip cards, fade-in, bounce, pulse glow, shimmer)
-- [x] Dark theme with gradient accents and confetti background
+- [x] 12 vocabulary categories (Greetings, Food, Numbers, Colors, Animals, Travel, Body, Weather, Family, Clothing, Directions, Emergency)
+- [x] 6 game modes (Flashcards, Quiz, Matching, Listening, Typing, Sentence Builder)
+- [x] Verb conjugation trainer with 10 common verbs
+- [x] XP & leveling system with progress tracking
+- [x] Daily goals with XP targets
+- [x] 19 achievements/badges system
+- [x] Spaced repetition for word review scheduling
+- [x] Audio pronunciation via Web Speech API
+- [x] Sound effects for correct/wrong answers
+- [x] Conversation phrases (5 scenarios)
+- [x] Cultural notes about Spanish-speaking countries
+- [x] Word of the Day feature
+- [x] Light/dark theme toggle
+- [x] Progress persistence via localStorage
 
 ## Current Structure
 
-| File/Directory | Purpose | Status |
-|----------------|---------|--------|
-| `src/app/page.tsx` | Home dashboard | ✅ Done |
-| `src/app/layout.tsx` | Root layout with ProgressProvider | ✅ Done |
-| `src/app/globals.css` | Tailwind + custom animations | ✅ Done |
-| `src/app/learn/[category]/page.tsx` | Flashcards & quiz per category | ✅ Done |
-| `src/app/quiz/page.tsx` | Quick quiz selection page | ✅ Done |
-| `src/data/vocabulary.ts` | Spanish vocabulary with 6 categories | ✅ Done |
-| `src/context/ProgressContext.tsx` | Progress state management | ✅ Done |
-| `src/components/Flashcard.tsx` | Flip-card component | ✅ Done |
-| `src/components/Quiz.tsx` | Multiple-choice quiz component | ✅ Done |
+| File/Directory | Purpose |
+|----------------|---------|
+| `src/app/page.tsx` | Home dashboard with all features |
+| `src/app/learn/[category]/page.tsx` | Flashcards & quiz per category |
+| `src/app/quiz/page.tsx` | Quick quiz selection |
+| `src/app/matching/page.tsx` | Matching memory game |
+| `src/app/listening/page.tsx` | Listening mode |
+| `src/app/typing/page.tsx` | Typing mode |
+| `src/app/sentences/page.tsx` | Sentence builder |
+| `src/app/verbs/page.tsx` | Verb conjugation trainer |
+| `src/app/achievements/page.tsx` | Achievements & stats |
+| `src/data/vocabulary.ts` | 12 categories, 96 words, conversations, cultural notes |
+| `src/data/verbs.ts` | 10 verbs, sentence exercises |
+| `src/data/achievements.ts` | 19 achievement definitions |
+| `src/context/ProgressContext.tsx` | Full progress/XP/streak management |
+| `src/context/ThemeContext.tsx` | Light/dark theme |
+| `src/components/Flashcard.tsx` | Flip card component |
+| `src/components/Quiz.tsx` | Multiple choice quiz |
+| `src/components/MatchingGame.tsx` | Memory matching game |
+| `src/components/ListeningGame.tsx` | Audio-based quiz |
+| `src/components/TypingGame.tsx` | Typing translation |
+| `src/components/SentenceBuilder.tsx` | Word arrangement |
+| `src/components/VerbPractice.tsx` | Conjugation quiz |
+| `src/lib/audio.ts` | Web Speech API + sound effects |
 
-## Current Focus
+## Routes
 
-The app is fully functional. Potential next steps:
-- Add more vocabulary categories
-- Add audio pronunciation
-- Add spaced repetition algorithm
-- Add daily challenges/goals
-- Add a leaderboard or achievements system
+| Route | Feature |
+|-------|---------|
+| `/` | Home dashboard |
+| `/learn/[category]` | Flashcards + Quiz |
+| `/quiz` | Quick Quiz |
+| `/matching` | Matching Game |
+| `/listening` | Listening Mode |
+| `/typing` | Typing Mode |
+| `/sentences` | Sentence Builder |
+| `/verbs` | Verb Trainer |
+| `/achievements` | Achievements & Stats |
 
 ## Session History
 
 | Date | Changes |
 |------|---------|
 | Initial | Template created with base setup |
-| Mar 30, 2026 | Built full ¡Aprende! Spanish learning app |
+| Mar 30, 2026 | Built ¡Aprende! with 6 categories, flashcards, quizzes, progress tracking |
+| Mar 30, 2026 | Added all remaining features: 6 new categories, 5 game modes, XP/leveling, achievements, audio, themes |
