@@ -7,6 +7,7 @@ import {
   useCallback,
   ReactNode,
 } from "react";
+import { getAllLessons } from "@/data/lessons";
 
 interface WordProgress {
   wordKey: string;
@@ -54,6 +55,8 @@ interface ProgressData {
   speedRounds: number;
   // Rewards
   purchasedRewards: string[];
+  // Lessons
+  completedLessons: string[];
 }
 
 interface ProgressContextType {
@@ -114,6 +117,10 @@ interface ProgressContextType {
   hasPurchased: (id: string) => boolean;
   // Streak history
   getStreakDays: () => string[];
+  // Lessons
+  completeLesson: (lessonId: string) => void;
+  isLessonCompleted: (lessonId: string) => boolean;
+  isLessonUnlocked: (lessonId: string) => boolean;
 }
 
 const ProgressContext = createContext<ProgressContextType | null>(null);
@@ -146,6 +153,7 @@ function getDefaultProgress(): ProgressData {
     hangmanGames: 0,
     speedRounds: 0,
     purchasedRewards: [],
+    completedLessons: [],
   };
 }
 
@@ -248,7 +256,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   }, [setProgress]);
 
   const addXP = useCallback(
-    (amount: number) => {
+    (amount: number, _reason?: string) => {
       setProgress((prev) => {
         const newXP = prev.xp + amount;
         const newLevel = getLevelFromXP(newXP);
@@ -599,6 +607,38 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     return Object.keys(progress.dailyHistory).sort();
   }, [progress.dailyHistory]);
 
+  const completeLesson = useCallback(
+    (lessonId: string) => {
+      updateStreak();
+      setProgress((prev) => {
+        if (prev.completedLessons.includes(lessonId)) return prev;
+        return {
+          ...prev,
+          completedLessons: [...prev.completedLessons, lessonId],
+        };
+      });
+    },
+    [updateStreak, setProgress]
+  );
+
+  const isLessonCompleted = useCallback(
+    (lessonId: string) => {
+      return progress.completedLessons.includes(lessonId);
+    },
+    [progress.completedLessons]
+  );
+
+  const isLessonUnlocked = useCallback(
+    (lessonId: string) => {
+      const allLessons = getAllLessons();
+      const idx = allLessons.findIndex((l) => l.id === lessonId);
+      if (idx === 0) return true;
+      if (idx < 0) return false;
+      return progress.completedLessons.includes(allLessons[idx - 1].id);
+    },
+    [progress.completedLessons]
+  );
+
   return (
     <ProgressContext.Provider
       value={{
@@ -631,6 +671,9 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         purchaseReward,
         hasPurchased,
         getStreakDays,
+        completeLesson,
+        isLessonCompleted,
+        isLessonUnlocked,
       }}
     >
       {children}

@@ -192,6 +192,31 @@ export default function Home() {
           </p>
         </div>
 
+        {/* Lessons CTA */}
+        <Link
+          href="/lessons"
+          className="group block mb-8 rounded-2xl bg-gradient-to-r from-emerald-600/20 to-green-600/20 border border-emerald-500/20 p-5 transition-transform hover:scale-[1.01] animate-fade-in-up"
+        >
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-500 to-green-500 flex items-center justify-center text-2xl shadow-lg shadow-emerald-500/20">
+              📚
+            </div>
+            <div className="flex-1">
+              <h3 className="text-lg font-bold text-white">Structured Lessons</h3>
+              <p className="text-sm text-gray-400">
+                {progress.completedLessons.length} of 18 lessons completed
+              </p>
+            </div>
+            <span className="text-emerald-400 text-lg group-hover:translate-x-1 transition-transform">→</span>
+          </div>
+          <div className="mt-3 w-full bg-white/10 rounded-full h-2">
+            <div
+              className="bg-gradient-to-r from-emerald-500 to-green-400 h-2 rounded-full transition-all duration-1000"
+              style={{ width: `${Math.round((progress.completedLessons.length / 18) * 100)}%` }}
+            />
+          </div>
+        </Link>
+
         {/* Game Modes */}
         <h2 className="text-lg font-semibold text-white mb-4 animate-fade-in-up">
           🎮 Game Modes

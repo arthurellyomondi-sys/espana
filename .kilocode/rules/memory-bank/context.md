@@ -2,7 +2,7 @@
 
 ## Current State
 
-**Status**: Fully featured Spanish learning app with 16 pages and 9 game modes.
+**Status**: Fully featured Spanish learning app with 18 pages and 9 game modes + structured lessons.
 
 ## Recently Completed
 
@@ -22,12 +22,15 @@
 - [x] Rewards Shop (12 purchasable items: themes, avatars, badges)
 - [x] Speech Recognition pronunciation practice (Web Speech API + Levenshtein scoring)
 - [x] Light/dark theme toggle
+- [x] Duolingo-style structured lessons (6 units, 18 lessons, 5 exercise types: translate, fill-blank, word bank, listen & choose, sentence builder)
 
-## Routes (16 pages)
+## Routes (18 pages)
 
 | Route | Feature |
 |-------|---------|
 | `/` | Dashboard |
+| `/lessons` | Lesson Path (Duolingo-style) |
+| `/lessons/[lessonId]` | Lesson Play (exercise flow) |
 | `/learn/[category]` | Flashcards + Quiz |
 | `/quiz` | Multiple Choice Quiz |
 | `/matching` | Memory Matching |
@@ -52,3 +55,4 @@
 | Mar 30, 2026 | Built ¡Aprende! with 6 categories, flashcards, quizzes, progress tracking |
 | Mar 30, 2026 | Added 6 categories, 5 game modes, XP/leveling, achievements, audio, themes |
 | Mar 30, 2026 | Added speech recognition, hangman, speed round, calendar, idioms, twisters, rewards, grammar |
+| Mar 30, 2026 | Added Duolingo-style structured lessons (6 units, 18 lessons, hearts system, exercise flow, completion screen)
