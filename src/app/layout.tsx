@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ProgressProvider } from "@/context/ProgressContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,8 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Next.js Template",
-  description: "A minimal Next.js starter template",
+  title: "¡Aprende! - Learn Spanish",
+  description:
+    "A fun, interactive way to learn Spanish with flashcards and quizzes",
 };
 
 export default function RootLayout({
@@ -25,9 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-neutral-950 text-white min-h-screen`}
       >
-        {children}
+        <ProgressProvider>{children}</ProgressProvider>
       </body>
     </html>
   );
