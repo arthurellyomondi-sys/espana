@@ -1,87 +1,49 @@
-# Active Context: Next.js Starter Template
+# Active Context: ¡Aprende! Spanish Learning App
 
 ## Current State
 
-**Template Status**: ✅ Ready for development
+**Status**: Spanish learning app built and deployed
 
-The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. It's ready for AI-assisted expansion to build any type of application.
+The starter template has been expanded into "¡Aprende!" - an interactive Spanish learning app with flashcards, quizzes, and progress tracking.
 
 ## Recently Completed
 
-- [x] Base Next.js 16 setup with App Router
-- [x] TypeScript configuration with strict mode
-- [x] Tailwind CSS 4 integration
-- [x] ESLint configuration
-- [x] Memory bank documentation
-- [x] Recipe system for common features
+- [x] Spanish vocabulary data with 6 categories (Greetings, Food, Numbers, Colors, Animals, Travel)
+- [x] Flip-card flashcard component with pronunciation guides and example sentences
+- [x] Multiple-choice quiz component with scoring and feedback
+- [x] ProgressContext with localStorage persistence (learned words, streaks, quiz scores)
+- [x] Home page dashboard with stats, overall progress bar, and category cards
+- [x] Learn/[category] page with flashcard and quiz modes
+- [x] Quick Quiz page for category-based or all-words quizzes
+- [x] CSS animations (flip cards, fade-in, bounce, pulse glow, shimmer)
+- [x] Dark theme with gradient accents and confetti background
 
 ## Current Structure
 
 | File/Directory | Purpose | Status |
 |----------------|---------|--------|
-| `src/app/page.tsx` | Home page | ✅ Ready |
-| `src/app/layout.tsx` | Root layout | ✅ Ready |
-| `src/app/globals.css` | Global styles | ✅ Ready |
-| `.kilocode/` | AI context & recipes | ✅ Ready |
+| `src/app/page.tsx` | Home dashboard | ✅ Done |
+| `src/app/layout.tsx` | Root layout with ProgressProvider | ✅ Done |
+| `src/app/globals.css` | Tailwind + custom animations | ✅ Done |
+| `src/app/learn/[category]/page.tsx` | Flashcards & quiz per category | ✅ Done |
+| `src/app/quiz/page.tsx` | Quick quiz selection page | ✅ Done |
+| `src/data/vocabulary.ts` | Spanish vocabulary with 6 categories | ✅ Done |
+| `src/context/ProgressContext.tsx` | Progress state management | ✅ Done |
+| `src/components/Flashcard.tsx` | Flip-card component | ✅ Done |
+| `src/components/Quiz.tsx` | Multiple-choice quiz component | ✅ Done |
 
 ## Current Focus
 
-The template is ready. Next steps depend on user requirements:
-
-1. What type of application to build
-2. What features are needed
-3. Design/branding preferences
-
-## Quick Start Guide
-
-### To add a new page:
-
-Create a file at `src/app/[route]/page.tsx`:
-```tsx
-export default function NewPage() {
-  return <div>New page content</div>;
-}
-```
-
-### To add components:
-
-Create `src/components/` directory and add components:
-```tsx
-// src/components/ui/Button.tsx
-export function Button({ children }: { children: React.ReactNode }) {
-  return <button className="px-4 py-2 bg-blue-600 text-white rounded">{children}</button>;
-}
-```
-
-### To add a database:
-
-Follow `.kilocode/recipes/add-database.md`
-
-### To add API routes:
-
-Create `src/app/api/[route]/route.ts`:
-```tsx
-import { NextResponse } from "next/server";
-
-export async function GET() {
-  return NextResponse.json({ message: "Hello" });
-}
-```
-
-## Available Recipes
-
-| Recipe | File | Use Case |
-|--------|------|----------|
-| Add Database | `.kilocode/recipes/add-database.md` | Data persistence with Drizzle + SQLite |
-
-## Pending Improvements
-
-- [ ] Add more recipes (auth, email, etc.)
-- [ ] Add example components
-- [ ] Add testing setup recipe
+The app is fully functional. Potential next steps:
+- Add more vocabulary categories
+- Add audio pronunciation
+- Add spaced repetition algorithm
+- Add daily challenges/goals
+- Add a leaderboard or achievements system
 
 ## Session History
 
 | Date | Changes |
 |------|---------|
 | Initial | Template created with base setup |
+| Mar 30, 2026 | Built full ¡Aprende! Spanish learning app |
