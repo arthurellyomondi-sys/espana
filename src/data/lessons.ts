@@ -3,7 +3,11 @@ export type ExerciseType =
   | "fill_blank"
   | "listen_choose"
   | "word_bank"
-  | "match_pairs";
+  | "match_pairs"
+  | "sentence_reorder"
+  | "dictation"
+  | "reverse_translate"
+  | "fill_type";
 
 export interface Exercise {
   type: ExerciseType;

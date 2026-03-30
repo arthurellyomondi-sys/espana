@@ -2,7 +2,7 @@
 
 ## Current State
 
-**Status**: Feature-rich Spanish learning app with 26 pages, 9 game modes, structured lessons, spaced repetition, leaderboard, and full gamification.
+**Status**: Feature-rich Spanish learning app with 27 pages, 9 game modes, structured lessons, spaced repetition, leaderboard, and full gamification.
 
 ## Recently Completed
 
@@ -38,8 +38,9 @@
 - [x] Export/Import progress (JSON)
 - [x] CSS: slide-in-right, shake, correct-bounce, confetti, combo-pulse, reduced-motion support
 - [x] Achievements page updated with 27 total achievements
+- [x] Grammar Practice page (/grammar-practice) with 5 practice sets (Articles, Ser vs Estar, Por vs Para, Adjective Agreement, Question Words), multiple choice and fill-in-the-blank, progress bar, feedback, +15 XP
 
-## Routes (26 pages)
+## Routes (27 pages)
 
 | Route | Feature |
 |-------|---------|
@@ -68,6 +69,7 @@
 | `/leaderboard` | Weekly Leagues |
 | `/daily-challenge` | Daily Challenge (+50 XP) |
 | `/onboarding` | Placement Test |
+| `/grammar-practice` | Grammar Practice (5 sets, MC + fill-in-blank) |
 
 ## Session History
 
@@ -79,3 +81,4 @@
 | Mar 30, 2026 | Added speech recognition, hangman, speed round, calendar, idioms, twisters, rewards, grammar |
 | Mar 30, 2026 | Added Duolingo-style structured lessons (6 units, 18 lessons) |
 | Mar 30, 2026 | Massive feature expansion: 7 new pages, toast system, streak freeze, crowns, combos, perfect bonus, 6 new vocab categories, 5 new verbs with 4 tenses, expanded to 10 units/30 lessons, 27 achievements, leaderboard, daily challenge, onboarding, CSS animations |
+| Mar 30, 2026 | Added Grammar Practice page (/grammar-practice) with 5 interactive practice sets |
