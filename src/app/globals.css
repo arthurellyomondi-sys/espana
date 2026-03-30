@@ -1,5 +1,81 @@
 @import "tailwindcss";
 
+/* Light theme overrides */
+html.light body {
+  background-color: #f5f5f5;
+  color: #171717;
+}
+
+html.light .bg-neutral-950 {
+  background-color: #f5f5f5 !important;
+}
+
+html.light .bg-white\/5 {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+html.light .bg-white\/10 {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+html.light .border-white\/5 {
+  border-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+html.light .border-white\/20 {
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+html.light .text-white {
+  color: #171717 !important;
+}
+
+html.light .text-gray-300 {
+  color: #525252 !important;
+}
+
+html.light .text-gray-400 {
+  color: #737373 !important;
+}
+
+html.light .text-gray-500 {
+  color: #a3a3a3 !important;
+}
+
+html.light .text-gray-600 {
+  color: #d4d4d4 !important;
+}
+
+html.light .hover\:bg-white\/10:hover {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light .hover\:bg-white\/20:hover {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+html.light .confetti-bg {
+  background-image: radial-gradient(
+      circle at 20% 80%,
+      rgba(120, 119, 198, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(255, 119, 115, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 40% 40%,
+      rgba(87, 204, 153, 0.07) 0%,
+      transparent 50%
+    );
+}
+
 /* Flip card animations */
 .perspective-1000 {
   perspective: 1000px;
@@ -91,7 +167,7 @@
   animation: shimmer 2s infinite;
 }
 
-/* Confetti-like background pattern */
+/* Confetti background pattern */
 .confetti-bg {
   background-image: radial-gradient(
       circle at 20% 80%,
@@ -108,4 +184,38 @@
       rgba(87, 204, 153, 0.2) 0%,
       transparent 50%
     );
+}
+
+/* XP bar glow */
+@keyframes xp-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(99, 102, 241, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.8);
+  }
+}
+
+.xp-glow {
+  animation: xp-glow 3s ease-in-out infinite;
+}
+
+/* Achievement unlock animation */
+@keyframes achievement-pop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.achievement-pop {
+  animation: achievement-pop 0.5s ease-out forwards;
 }

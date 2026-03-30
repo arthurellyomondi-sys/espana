@@ -399,6 +399,611 @@ export const categories: Category[] = [
       },
     ],
   },
+  {
+    id: "body",
+    name: "Body",
+    emoji: "🫀",
+    color: "from-rose-500 to-red-500",
+    words: [
+      {
+        spanish: "Cabeza",
+        english: "Head",
+        pronunciation: "kah-BEH-sah",
+        example: "Me duele la cabeza.",
+        exampleTranslation: "My head hurts.",
+      },
+      {
+        spanish: "Mano",
+        english: "Hand",
+        pronunciation: "MAH-noh",
+        example: "Dame la mano.",
+        exampleTranslation: "Give me your hand.",
+      },
+      {
+        spanish: "Ojo",
+        english: "Eye",
+        pronunciation: "OH-hoh",
+        example: "Tienes ojos bonitos.",
+        exampleTranslation: "You have beautiful eyes.",
+      },
+      {
+        spanish: "Boca",
+        english: "Mouth",
+        pronunciation: "BOH-kah",
+        example: "Abre la boca, por favor.",
+        exampleTranslation: "Open your mouth, please.",
+      },
+      {
+        spanish: "Corazón",
+        english: "Heart",
+        pronunciation: "koh-rah-SOHN",
+        example: "Mi corazón late rápido.",
+        exampleTranslation: "My heart beats fast.",
+      },
+      {
+        spanish: "Pierna",
+        english: "Leg",
+        pronunciation: "PYEHR-nah",
+        example: "Me duele la pierna.",
+        exampleTranslation: "My leg hurts.",
+      },
+      {
+        spanish: "Brazo",
+        english: "Arm",
+        pronunciation: "BRAH-soh",
+        example: "Tiene el brazo roto.",
+        exampleTranslation: "He has a broken arm.",
+      },
+      {
+        spanish: "Espalda",
+        english: "Back",
+        pronunciation: "ehs-PAHL-dah",
+        example: "Me duele la espalda.",
+        exampleTranslation: "My back hurts.",
+      },
+    ],
+  },
+  {
+    id: "weather",
+    name: "Weather",
+    emoji: "🌤️",
+    color: "from-yellow-500 to-amber-500",
+    words: [
+      {
+        spanish: "Sol",
+        english: "Sun",
+        pronunciation: "SOHL",
+        example: "Hace mucho sol hoy.",
+        exampleTranslation: "It's very sunny today.",
+      },
+      {
+        spanish: "Lluvia",
+        english: "Rain",
+        pronunciation: "YOO-vyah",
+        example: "La lluvia es refrescante.",
+        exampleTranslation: "The rain is refreshing.",
+      },
+      {
+        spanish: "Nieve",
+        english: "Snow",
+        pronunciation: "NYEH-beh",
+        example: "La nieve es blanca y fría.",
+        exampleTranslation: "Snow is white and cold.",
+      },
+      {
+        spanish: "Viento",
+        english: "Wind",
+        pronunciation: "BYEHN-toh",
+        example: "El viento sopla fuerte.",
+        exampleTranslation: "The wind blows strongly.",
+      },
+      {
+        spanish: "Tormenta",
+        english: "Storm",
+        pronunciation: "tohr-MEHN-tah",
+        example: "Viene una tormenta eléctrica.",
+        exampleTranslation: "A thunderstorm is coming.",
+      },
+      {
+        spanish: "Nube",
+        english: "Cloud",
+        pronunciation: "NOO-beh",
+        example: "Hay muchas nubes en el cielo.",
+        exampleTranslation: "There are many clouds in the sky.",
+      },
+      {
+        spanish: "Calor",
+        english: "Heat",
+        pronunciation: "kah-LOHR",
+        example: "Hace mucho calor en verano.",
+        exampleTranslation: "It's very hot in summer.",
+      },
+      {
+        spanish: "Frío",
+        english: "Cold",
+        pronunciation: "FREE-oh",
+        example: "Hace frío en invierno.",
+        exampleTranslation: "It's cold in winter.",
+      },
+    ],
+  },
+  {
+    id: "family",
+    name: "Family",
+    emoji: "👨‍👩‍👧‍👦",
+    color: "from-teal-500 to-cyan-500",
+    words: [
+      {
+        spanish: "Madre",
+        english: "Mother",
+        pronunciation: "MAH-dreh",
+        example: "Mi madre cocina muy bien.",
+        exampleTranslation: "My mother cooks very well.",
+      },
+      {
+        spanish: "Padre",
+        english: "Father",
+        pronunciation: "PAH-dreh",
+        example: "Mi padre trabaja mucho.",
+        exampleTranslation: "My father works a lot.",
+      },
+      {
+        spanish: "Hermano",
+        english: "Brother",
+        pronunciation: "ehr-MAH-noh",
+        example: "Mi hermano es mayor que yo.",
+        exampleTranslation: "My brother is older than me.",
+      },
+      {
+        spanish: "Hermana",
+        english: "Sister",
+        pronunciation: "ehr-MAH-nah",
+        example: "Mi hermana vive en Madrid.",
+        exampleTranslation: "My sister lives in Madrid.",
+      },
+      {
+        spanish: "Hijo",
+        english: "Son",
+        pronunciation: "EE-hoh",
+        example: "Mi hijo tiene cinco años.",
+        exampleTranslation: "My son is five years old.",
+      },
+      {
+        spanish: "Hija",
+        english: "Daughter",
+        pronunciation: "EE-hah",
+        example: "Mi hija estudia música.",
+        exampleTranslation: "My daughter studies music.",
+      },
+      {
+        spanish: "Abuelo",
+        english: "Grandfather",
+        pronunciation: "ah-BWEH-loh",
+        example: "Mi abuelo tiene ochenta años.",
+        exampleTranslation: "My grandfather is eighty years old.",
+      },
+      {
+        spanish: "Abuela",
+        english: "Grandmother",
+        pronunciation: "ah-BWEH-lah",
+        example: "Mi abuela hace galletas.",
+        exampleTranslation: "My grandmother makes cookies.",
+      },
+    ],
+  },
+  {
+    id: "clothing",
+    name: "Clothing",
+    emoji: "👕",
+    color: "from-fuchsia-500 to-pink-500",
+    words: [
+      {
+        spanish: "Camisa",
+        english: "Shirt",
+        pronunciation: "kah-MEE-sah",
+        example: "Lleva una camisa blanca.",
+        exampleTranslation: "He wears a white shirt.",
+      },
+      {
+        spanish: "Pantalones",
+        english: "Pants",
+        pronunciation: "pahn-tah-LOH-nehs",
+        example: "Mis pantalones son azules.",
+        exampleTranslation: "My pants are blue.",
+      },
+      {
+        spanish: "Zapatos",
+        english: "Shoes",
+        pronunciation: "sah-PAH-tohs",
+        example: "Necesito zapatos nuevos.",
+        exampleTranslation: "I need new shoes.",
+      },
+      {
+        spanish: "Vestido",
+        english: "Dress",
+        pronunciation: "behs-TEE-doh",
+        example: "El vestido es muy bonito.",
+        exampleTranslation: "The dress is very pretty.",
+      },
+      {
+        spanish: "Sombrero",
+        english: "Hat",
+        pronunciation: "sohm-BREH-roh",
+        example: "El sombrero protege del sol.",
+        exampleTranslation: "The hat protects from the sun.",
+      },
+      {
+        spanish: "Chaqueta",
+        english: "Jacket",
+        pronunciation: "chah-KEH-tah",
+        example: "Ponte la chaqueta, hace frío.",
+        exampleTranslation: "Put on the jacket, it's cold.",
+      },
+      {
+        spanish: "Falda",
+        english: "Skirt",
+        pronunciation: "FAHL-dah",
+        example: "La falda es de algodón.",
+        exampleTranslation: "The skirt is made of cotton.",
+      },
+      {
+        spanish: "Calcetines",
+        english: "Socks",
+        pronunciation: "kahl-seh-TEE-nehs",
+        example: "No encuentro mis calcetines.",
+        exampleTranslation: "I can't find my socks.",
+      },
+    ],
+  },
+  {
+    id: "directions",
+    name: "Directions",
+    emoji: "🧭",
+    color: "from-lime-500 to-green-500",
+    words: [
+      {
+        spanish: "Izquierda",
+        english: "Left",
+        pronunciation: "eez-KYEHR-dah",
+        example: "Gira a la izquierda en la esquina.",
+        exampleTranslation: "Turn left at the corner.",
+      },
+      {
+        spanish: "Derecha",
+        english: "Right",
+        pronunciation: "deh-REH-chah",
+        example: "El banco está a la derecha.",
+        exampleTranslation: "The bank is on the right.",
+      },
+      {
+        spanish: "Recto",
+        english: "Straight",
+        pronunciation: "RREHK-toh",
+        example: "Sigue recto por dos cuadras.",
+        exampleTranslation: "Go straight for two blocks.",
+      },
+      {
+        spanish: "Cerca",
+        english: "Near",
+        pronunciation: "SEHR-kah",
+        example: "La tienda está muy cerca.",
+        exampleTranslation: "The store is very near.",
+      },
+      {
+        spanish: "Lejos",
+        english: "Far",
+        pronunciation: "LEH-hohs",
+        example: "El aeropuerto está lejos.",
+        exampleTranslation: "The airport is far.",
+      },
+      {
+        spanish: "Arriba",
+        english: "Up",
+        pronunciation: "ah-RREE-bah",
+        example: "El apartamento es arriba.",
+        exampleTranslation: "The apartment is upstairs.",
+      },
+      {
+        spanish: "Abajo",
+        english: "Down",
+        pronunciation: "ah-BAH-hoh",
+        example: "El sótano está abajo.",
+        exampleTranslation: "The basement is downstairs.",
+      },
+      {
+        spanish: "Esquina",
+        english: "Corner",
+        pronunciation: "ehs-KEE-nah",
+        example: "Hay un café en la esquina.",
+        exampleTranslation: "There's a cafe on the corner.",
+      },
+    ],
+  },
+  {
+    id: "emergency",
+    name: "Emergency",
+    emoji: "🚨",
+    color: "from-red-600 to-red-500",
+    words: [
+      {
+        spanish: "Ayuda",
+        english: "Help",
+        pronunciation: "ah-YOO-dah",
+        example: "¡Ayuda, por favor!",
+        exampleTranslation: "Help, please!",
+      },
+      {
+        spanish: "Hospital",
+        english: "Hospital",
+        pronunciation: "ohs-pee-TAHL",
+        example: "Necesito ir al hospital.",
+        exampleTranslation: "I need to go to the hospital.",
+      },
+      {
+        spanish: "Policía",
+        english: "Police",
+        pronunciation: "poh-lee-SEE-ah",
+        example: "Llama a la policía.",
+        exampleTranslation: "Call the police.",
+      },
+      {
+        spanish: "Bombero",
+        english: "Firefighter",
+        pronunciation: "bohm-BEH-roh",
+        example: "Los bomberos apagaron el fuego.",
+        exampleTranslation: "The firefighters put out the fire.",
+      },
+      {
+        spanish: "Doctor",
+        english: "Doctor",
+        pronunciation: "dohk-TOHR",
+        example: "El doctor me recetó medicina.",
+        exampleTranslation: "The doctor prescribed me medicine.",
+      },
+      {
+        spanish: "Medicina",
+        english: "Medicine",
+        pronunciation: "meh-dee-SEE-nah",
+        example: "Toma la medicina con agua.",
+        exampleTranslation: "Take the medicine with water.",
+      },
+      {
+        spanish: "Fuego",
+        english: "Fire",
+        pronunciation: "FWEH-goh",
+        example: "¡Fuego! Salgan del edificio.",
+        exampleTranslation: "Fire! Get out of the building.",
+      },
+      {
+        spanish: "Accidente",
+        english: "Accident",
+        pronunciation: "ahk-see-DEHN-teh",
+        example: "Hubo un accidente en la carretera.",
+        exampleTranslation: "There was an accident on the road.",
+      },
+    ],
+  },
+];
+
+export const conversationPhrases = [
+  {
+    id: "restaurant",
+    name: "At a Restaurant",
+    emoji: "🍴",
+    phrases: [
+      {
+        spanish: "Una mesa para dos, por favor.",
+        english: "A table for two, please.",
+        pronunciation: "OO-nah MEH-sah PAH-rah dohs, pohr fah-BOHR",
+      },
+      {
+        spanish: "¿Me puede traer el menú?",
+        english: "Can you bring me the menu?",
+        pronunciation: "meh PWEH-deh trah-EHR ehl meh-NOO",
+      },
+      {
+        spanish: "Quiero pedir la cuenta.",
+        english: "I want to ask for the check.",
+        pronunciation: "KYEH-roh peh-DEER lah KWEHN-tah",
+      },
+      {
+        spanish: "¿Qué me recomienda?",
+        english: "What do you recommend?",
+        pronunciation: "keh meh reh-koh-MYEHN-dah",
+      },
+      {
+        spanish: "Está delicioso.",
+        english: "It's delicious.",
+        pronunciation: "ehs-TAH deh-lee-SYOH-soh",
+      },
+      {
+        spanish: "Soy alérgico a los cacahuates.",
+        english: "I'm allergic to peanuts.",
+        pronunciation: "soy ah-LEHR-hee-koh ah lohs kah-kah-WAH-tehs",
+      },
+    ],
+  },
+  {
+    id: "hotel",
+    name: "At a Hotel",
+    emoji: "🏨",
+    phrases: [
+      {
+        spanish: "Tengo una reservación.",
+        english: "I have a reservation.",
+        pronunciation: "TEHN-goh OO-nah reh-sehr-bah-SYOHN",
+      },
+      {
+        spanish: "¿A qué hora es el check-out?",
+        english: "What time is check-out?",
+        pronunciation: "ah keh OH-rah ehs ehl chek-OWT",
+      },
+      {
+        spanish: "¿Tienen habitaciones disponibles?",
+        english: "Do you have available rooms?",
+        pronunciation: "TYEH-nehn ah-bee-tah-SYOH-nehs dees-poh-NEE-blehs",
+      },
+      {
+        spanish: "¿Dónde está el ascensor?",
+        english: "Where is the elevator?",
+        pronunciation: "DOHN-deh ehs-TAH ehl ah-sehn-SOHR",
+      },
+      {
+        spanish: "Necesito toallas adicionales.",
+        english: "I need extra towels.",
+        pronunciation: "neh-seh-SEE-toh TOH-ah-yahs ah-dee-syoh-NAH-lehs",
+      },
+      {
+        spanish: "¿Hay WiFi gratis?",
+        english: "Is there free WiFi?",
+        pronunciation: "eye WEE-fee GRAH-tees",
+      },
+    ],
+  },
+  {
+    id: "directions-conv",
+    name: "Asking for Directions",
+    emoji: "🗺️",
+    phrases: [
+      {
+        spanish: "¿Cómo llego al centro?",
+        english: "How do I get to downtown?",
+        pronunciation: "KOH-moh YEH-goh ahl SEHN-troh",
+      },
+      {
+        spanish: "¿Está lejos de aquí?",
+        pronunciation: "ehs-TAH LEH-hohs deh ah-KEE",
+        english: "Is it far from here?",
+      },
+      {
+        spanish: "¿Dónde está la estación de metro?",
+        english: "Where is the subway station?",
+        pronunciation: "DOHN-deh ehs-TAH lah ehs-tah-SYOHN deh MEH-troh",
+      },
+      {
+        spanish: "¿Puede mostrarme en el mapa?",
+        english: "Can you show me on the map?",
+        pronunciation: "PWEH-deh mohs-TRAR-meh ehn ehl MAH-pah",
+      },
+      {
+        spanish: "Necesito un taxi.",
+        english: "I need a taxi.",
+        pronunciation: "neh-seh-SEE-toh oon TAHK-see",
+      },
+      {
+        spanish: "¿Cuánto cuesta el boleto?",
+        english: "How much does the ticket cost?",
+        pronunciation: "KWAHN-toh KWEHS-tah ehl boh-LEH-toh",
+      },
+    ],
+  },
+  {
+    id: "shopping",
+    name: "Shopping",
+    emoji: "🛍️",
+    phrases: [
+      {
+        spanish: "¿Cuánto cuesta esto?",
+        english: "How much does this cost?",
+        pronunciation: "KWAHN-toh KWEHS-tah EHS-toh",
+      },
+      {
+        spanish: "¿Tiene esto en otra talla?",
+        english: "Do you have this in another size?",
+        pronunciation: "TYEH-neh EHS-toh ehn OH-trah TAH-yah",
+      },
+      {
+        spanish: "Solo estoy mirando.",
+        english: "I'm just looking.",
+        pronunciation: "SOH-loh ehs-TOY mee-RAHN-doh",
+      },
+      {
+        spanish: "¿Aceptan tarjeta de crédito?",
+        english: "Do you accept credit cards?",
+        pronunciation: "ah-SEHP-tahn tahr-HEH-tah deh KREH-dee-toh",
+      },
+      {
+        spanish: "Me lo llevo.",
+        english: "I'll take it.",
+        pronunciation: "meh loh YEH-boh",
+      },
+      {
+        spanish: "¿Puedo probármelo?",
+        english: "Can I try it on?",
+        pronunciation: "PWEH-doh proh-BAR-meh-loh",
+      },
+    ],
+  },
+  {
+    id: "emergency-conv",
+    name: "Emergency Situations",
+    emoji: "🆘",
+    phrases: [
+      {
+        spanish: "¡Necesito ayuda!",
+        english: "I need help!",
+        pronunciation: "neh-seh-SEE-toh ah-YOO-dah",
+      },
+      {
+        spanish: "Llame a una ambulancia.",
+        english: "Call an ambulance.",
+        pronunciation: "YAH-meh ah OO-nah ahm-boo-LAHN-syah",
+      },
+      {
+        spanish: "Me he perdido.",
+        english: "I'm lost.",
+        pronunciation: "meh eh pehr-DEE-doh",
+      },
+      {
+        spanish: "Se me robaron la cartera.",
+        english: "My wallet was stolen.",
+        pronunciation: "seh meh roh-BAH-rohn lah kahr-TEH-rah",
+      },
+      {
+        spanish: "No hablo mucho español.",
+        english: "I don't speak much Spanish.",
+        pronunciation: "noh AH-bloh MOO-choh ehs-pah-NYOHL",
+      },
+      {
+        spanish: "¿Habla inglés?",
+        english: "Do you speak English?",
+        pronunciation: "AH-blah een-GLEHS",
+      },
+    ],
+  },
+];
+
+export const culturalNotes = [
+  {
+    country: "Mexico",
+    emoji: "🇲🇽",
+    note: "In Mexico, lunch (comida) is the biggest meal of the day, usually eaten between 2-4 PM. It often includes rice, beans, tortillas, and a main dish.",
+  },
+  {
+    country: "Spain",
+    emoji: "🇪🇸",
+    note: "Spaniards typically eat dinner very late, around 9-10 PM. The famous siesta tradition comes from the hot afternoon hours.",
+  },
+  {
+    country: "Argentina",
+    emoji: "🇦🇷",
+    note: "Argentina is famous for mate, a traditional caffeinated drink shared socially. When someone offers you mate, it's a sign of friendship!",
+  },
+  {
+    country: "Colombia",
+    emoji: "🇨🇴",
+    note: "Colombians often use '¿Qué más?' as a casual greeting meaning 'What's up?' It's a friendly way to say hello.",
+  },
+  {
+    country: "Cuba",
+    emoji: "🇨🇺",
+    note: "Cuban Spanish is known for dropping the 's' sound at the end of words. 'Estás' becomes 'Ehtá' in casual speech.",
+  },
+  {
+    country: "Peru",
+    emoji: "🇵🇪",
+    note: "Peru has over 3,000 varieties of potatoes! The country's cuisine is world-renowned, with dishes like ceviche and lomo saltado.",
+  },
 ];
 
 export function getCategoryById(id: string): Category | undefined {
@@ -407,4 +1012,14 @@ export function getCategoryById(id: string): Category | undefined {
 
 export function getAllWords(): Word[] {
   return categories.flatMap((c) => c.words);
+}
+
+export function getWordOfTheDay(): Word {
+  const all = getAllWords();
+  const today = new Date();
+  const dayOfYear = Math.floor(
+    (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) /
+      (1000 * 60 * 60 * 24)
+  );
+  return all[dayOfYear % all.length];
 }
