@@ -2,7 +2,7 @@
 
 ## Current State
 
-**Status**: Full-featured Spanish learning app with 31 pages, 14 game modes, structured lessons, spaced repetition, leaderboard, dialogues, comprehensions, and full gamification.
+**Status**: Beautiful full-featured Spanish learning app with 31 pages, 14 game modes, glassmorphism design system, ambient backgrounds.
 
 ## Recently Completed
 
@@ -72,3 +72,4 @@
 | Mar 30, 2026 | Added Duolingo-style lessons (6→10 units, 18→30 lessons) |
 | Mar 30, 2026 | 7 new pages, toasts, streak freeze, crowns, combos, perfect bonus, 6 new vocab categories, 5 new verbs with 4 tenses |
 | Mar 30, 2026 | Grammar practice, dialogue simulations, listening/reading comprehension, practice mistakes, tense selector, shop consumables (double XP, streak repair, hearts refill), text size, speech rate, per-word accuracy, achievement toasts |
+| Mar 30, 2026 | Visual overhaul: glassmorphism cards, ambient orbs, gradient text, custom buttons, progress bars, hover glows, floating animation, redesigned dashboard & lessons path |

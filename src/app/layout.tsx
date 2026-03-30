@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-neutral-950 text-white min-h-screen dark`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased ambient-bg text-white min-h-screen dark`}
       >
         <ThemeProvider>
           <ProgressProvider>

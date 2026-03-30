@@ -35,48 +35,53 @@ export default function Home() {
   const levelEmoji = levelEmojis[Math.min(progress.level - 1, levelEmojis.length - 1)];
 
   return (
-    <main className="min-h-screen bg-neutral-950 confetti-bg">
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-10 animate-fade-in-up">
-          <div />
-          <div className="text-center">
-            <h1 className="text-5xl font-bold mb-1">
-              <span className="bg-gradient-to-r from-amber-400 via-red-400 to-pink-400 bg-clip-text text-transparent">
-                ¡Aprende!
-              </span>
-            </h1>
-            <p className="text-gray-400 text-sm">
-              Learn Spanish one word at a time
-            </p>
+    <main className="min-h-screen relative overflow-hidden">
+      {/* Ambient Orbs */}
+      <div className="ambient-orb w-96 h-96 bg-indigo-500 -top-48 -left-48" />
+      <div className="ambient-orb w-80 h-80 bg-purple-500 top-1/3 -right-40" />
+      <div className="ambient-orb w-64 h-64 bg-cyan-500 bottom-20 left-1/4" />
+
+      <div className="relative max-w-4xl mx-auto px-4 py-8">
+        {/* Hero Section */}
+        <div className="text-center mb-10 animate-fade-in-up">
+          <div className="flex items-center justify-between mb-4">
+            <button
+              onClick={toggleTheme}
+              className="p-2.5 rounded-xl glass-card text-lg"
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? "☀️" : "🌙"}
+            </button>
+            <Link href="/settings" className="p-2.5 rounded-xl glass-card text-lg">
+              ⚙️
+            </Link>
           </div>
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 transition-colors text-xl"
-            aria-label="Toggle theme"
-          >
-            {theme === "dark" ? "☀️" : "🌙"}
-          </button>
+          <h1 className="text-6xl font-extrabold mb-2 gradient-text tracking-tight">
+            ¡Aprende!
+          </h1>
+          <p className="text-gray-400 text-sm tracking-wide">
+            Learn Spanish, one word at a time
+          </p>
         </div>
 
         {/* XP & Level Bar */}
-        <div className="bg-white/5 rounded-2xl p-5 mb-6 border border-white/5 animate-fade-in-up">
+        <div className="glass-card rounded-2xl p-5 mb-5 animate-fade-in-up">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
-              <span className="text-3xl">{levelEmoji}</span>
+              <span className="text-4xl animate-float">{levelEmoji}</span>
               <div>
                 <p className="text-lg font-bold text-white">Level {progress.level}</p>
                 <p className="text-xs text-gray-400">{progress.xp} XP total</p>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-sm text-indigo-400 font-medium">{xpProgress}%</p>
+              <p className="text-lg font-bold gradient-text-cool">{xpProgress}%</p>
               <p className="text-xs text-gray-500">to next level</p>
             </div>
           </div>
-          <div className="w-full bg-white/10 rounded-full h-3 xp-glow">
+          <div className="progress-bar h-3 xp-glow">
             <div
-              className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 h-3 rounded-full transition-all duration-700"
+              className="progress-fill bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 h-full"
               style={{ width: `${xpProgress}%` }}
             />
           </div>
@@ -84,10 +89,8 @@ export default function Home() {
 
         {/* Daily Goal */}
         <div
-          className={`rounded-2xl p-5 mb-6 border animate-fade-in-up ${
-            goalComplete
-              ? "bg-emerald-500/10 border-emerald-500/30"
-              : "bg-white/5 border-white/5"
+          className={`glass-card rounded-2xl p-5 mb-5 animate-fade-in-up ${
+            goalComplete ? "border-emerald-500/30!" : ""
           }`}
         >
           <div className="flex items-center justify-between mb-3">
@@ -101,14 +104,14 @@ export default function Home() {
               </div>
             </div>
             {goalComplete && (
-              <span className="text-emerald-400 text-sm font-medium bg-emerald-500/20 px-3 py-1 rounded-full">
+              <span className="text-emerald-400 text-xs font-medium bg-emerald-500/15 px-3 py-1.5 rounded-full">
                 Complete!
               </span>
             )}
           </div>
-          <div className="w-full bg-white/10 rounded-full h-2">
+          <div className="progress-bar h-2.5">
             <div
-              className={`h-2 rounded-full transition-all duration-700 ${
+              className={`progress-fill h-full ${
                 goalComplete
                   ? "bg-gradient-to-r from-emerald-500 to-green-400"
                   : "bg-gradient-to-r from-amber-500 to-orange-500"
@@ -122,69 +125,30 @@ export default function Home() {
 
         {/* Stats Bar */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6 animate-fade-in-up">
-          <StatCard
-            label="Streak"
-            value={`${progress.currentStreak}`}
-            emoji="🔥"
-            accent={
-              progress.currentStreak > 0 ? "text-amber-400" : "text-gray-500"
-            }
-            glow={progress.currentStreak > 0}
-          />
-          <StatCard
-            label="Words"
-            value={`${progress.learnedWords.length}`}
-            emoji="📚"
-            accent="text-emerald-400"
-          />
-          <StatCard
-            label="Achievements"
-            value={`${progress.unlockedAchievements.length}`}
-            emoji="🏆"
-            accent="text-yellow-400"
-          />
-          <StatCard
-            label="Best Streak"
-            value={`${progress.bestStreak}`}
-            emoji="⭐"
-            accent="text-yellow-400"
-          />
-        </div>
-
-        {/* Overall Progress */}
-        <div className="mb-8 animate-fade-in-up">
-          <div className="flex justify-between items-center mb-2">
-            <h2 className="text-sm font-semibold text-gray-400">
-              Overall Progress
-            </h2>
-            <span className="text-sm text-gray-400">{overallProgress}%</span>
-          </div>
-          <div className="w-full bg-white/10 rounded-full h-2">
-            <div
-              className="bg-gradient-to-r from-amber-500 via-red-500 to-pink-500 h-2 rounded-full transition-all duration-1000"
-              style={{ width: `${overallProgress}%` }}
-            />
-          </div>
+          <StatCard label="Streak" value={`${progress.currentStreak}`} emoji="🔥" accent="text-amber-400" glow={progress.currentStreak > 0} />
+          <StatCard label="Words" value={`${progress.learnedWords.length}`} emoji="📚" accent="text-emerald-400" />
+          <StatCard label="Crowns" value={`${progress.totalCrowns}`} emoji="👑" accent="text-yellow-400" />
+          <StatCard label="Lessons" value={`${progress.completedLessons.length}`} emoji="📖" accent="text-purple-400" />
         </div>
 
         {/* Word of the Day */}
-        <div className="bg-gradient-to-br from-indigo-600/20 to-purple-600/20 rounded-2xl p-6 mb-8 border border-indigo-500/20 animate-fade-in-up">
+        <div className="glass-card rounded-2xl p-6 mb-5 border-indigo-500/15! animate-fade-in-up"
+          style={{ background: "linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(168, 85, 247, 0.05))" }}
+        >
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-sm font-semibold text-indigo-300 flex items-center gap-2">
               ✨ Word of the Day
             </h2>
             <button
               onClick={() => speakSpanish(wordOfDay.spanish)}
-              className="text-sky-400 hover:text-sky-300 transition-colors"
+              className="text-sky-400 hover:text-sky-300 transition-colors text-lg"
             >
               🔊
             </button>
           </div>
           <div className="flex items-baseline gap-3 mb-2">
-            <h3 className="text-3xl font-bold text-white">
-              {wordOfDay.spanish}
-            </h3>
-            <span className="text-indigo-300">{wordOfDay.pronunciation}</span>
+            <h3 className="text-3xl font-bold text-white">{wordOfDay.spanish}</h3>
+            <span className="text-indigo-300 text-sm">{wordOfDay.pronunciation}</span>
           </div>
           <p className="text-gray-300 mb-1">{wordOfDay.english}</p>
           <p className="text-sm text-gray-400 italic">
@@ -195,33 +159,63 @@ export default function Home() {
         {/* Lessons CTA */}
         <Link
           href="/lessons"
-          className="group block mb-8 rounded-2xl bg-gradient-to-r from-emerald-600/20 to-green-600/20 border border-emerald-500/20 p-5 transition-transform hover:scale-[1.01] animate-fade-in-up"
+          className="group block mb-6 glass-card rounded-2xl p-5 animate-fade-in-up"
+          style={{ background: "linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(34, 197, 94, 0.04))" }}
         >
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-500 to-green-500 flex items-center justify-center text-2xl shadow-lg shadow-emerald-500/20">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-green-500 flex items-center justify-center text-2xl shadow-lg shadow-emerald-500/25">
               📚
             </div>
             <div className="flex-1">
               <h3 className="text-lg font-bold text-white">Structured Lessons</h3>
               <p className="text-sm text-gray-400">
-                {progress.completedLessons.length} of 18 lessons completed
+                {progress.completedLessons.length} of 30 lessons completed
               </p>
             </div>
             <span className="text-emerald-400 text-lg group-hover:translate-x-1 transition-transform">→</span>
           </div>
-          <div className="mt-3 w-full bg-white/10 rounded-full h-2">
+          <div className="mt-3 progress-bar h-2">
             <div
-              className="bg-gradient-to-r from-emerald-500 to-green-400 h-2 rounded-full transition-all duration-1000"
-              style={{ width: `${Math.round((progress.completedLessons.length / 18) * 100)}%` }}
+              className="progress-fill bg-gradient-to-r from-emerald-500 to-green-400 h-full"
+              style={{ width: `${Math.round((progress.completedLessons.length / 30) * 100)}%` }}
             />
           </div>
         </Link>
 
+        {/* Quick Actions */}
+        <h2 className="text-lg font-semibold text-white mb-3 animate-fade-in-up">
+          ⚡ Quick Actions
+        </h2>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+          <Link href="/review" className="glass-card rounded-xl p-4 text-center">
+            <span className="text-2xl block mb-1">🧠</span>
+            <h3 className="font-bold text-white text-xs">Review</h3>
+            <p className="text-[10px] text-gray-400">Spaced repetition</p>
+          </Link>
+          <Link href="/daily-challenge" className="glass-card rounded-xl p-4 text-center"
+            style={{ background: "linear-gradient(135deg, rgba(245, 158, 11, 0.06), transparent)" }}
+          >
+            <span className="text-2xl block mb-1">🎯</span>
+            <h3 className="font-bold text-white text-xs">Daily</h3>
+            <p className="text-[10px] text-amber-400">+50 bonus XP</p>
+          </Link>
+          <Link href="/profile" className="glass-card rounded-xl p-4 text-center">
+            <span className="text-2xl block mb-1">👤</span>
+            <h3 className="font-bold text-white text-xs">Profile</h3>
+            <p className="text-[10px] text-gray-400">Level {progress.level}</p>
+          </Link>
+          <Link href="/leaderboard" className="glass-card rounded-xl p-4 text-center">
+            <span className="text-2xl block mb-1">🏆</span>
+            <h3 className="font-bold text-white text-xs">League</h3>
+            <p className="text-[10px] text-gray-400">Compete</p>
+          </Link>
+        </div>
+
         {/* Game Modes */}
-        <h2 className="text-lg font-semibold text-white mb-4 animate-fade-in-up">
+        <h2 className="text-lg font-semibold text-white mb-3 animate-fade-in-up">
           🎮 Game Modes
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
           <GameCard href="/matching" emoji="🃏" title="Matching" desc="Memory card game" color="from-rose-500 to-pink-600" />
           <GameCard href="/listening" emoji="👂" title="Listening" desc="Hear & identify" color="from-sky-500 to-blue-600" />
           <GameCard href="/speaking" emoji="🎤" title="Speaking" desc="Say it in Spanish" color="from-red-500 to-rose-600" />
@@ -239,30 +233,28 @@ export default function Home() {
         </div>
 
         {/* Categories */}
-        <h2 className="text-lg font-semibold text-white mb-4 animate-fade-in-up">
+        <h2 className="text-lg font-semibold text-white mb-3 animate-fade-in-up">
           📖 Learn by Category
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
           {categories.map((category, i) => (
             <Link
               key={category.id}
               href={`/learn/${category.id}`}
-              className="group animate-fade-in-up"
-              style={{ animationDelay: `${i * 50}ms` }}
+              className="group animate-fade-in-up category-card"
+              style={{ animationDelay: `${i * 40}ms` }}
             >
               <div
-                className={`rounded-xl bg-gradient-to-br ${category.color} p-[1px] transition-transform group-hover:scale-[1.02]`}
+                className={`rounded-2xl bg-gradient-to-br ${category.color} p-[1px]`}
               >
-                <div className="bg-neutral-900 rounded-xl p-4 h-full">
+                <div className="bg-neutral-950/90 rounded-2xl p-4 h-full">
                   <div className="flex items-center gap-3 mb-2">
                     <span className="text-2xl">{category.emoji}</span>
                     <h3 className="font-bold text-white text-sm">
                       {category.name}
                     </h3>
                   </div>
-                  <p className="text-xs text-gray-400">
-                    {category.words.length} words
-                  </p>
+                  <p className="text-xs text-gray-400">{category.words.length} words</p>
                 </div>
               </div>
             </Link>
@@ -270,36 +262,28 @@ export default function Home() {
         </div>
 
         {/* Conversation Phrases */}
-        <h2 className="text-lg font-semibold text-white mb-4 animate-fade-in-up">
+        <h2 className="text-lg font-semibold text-white mb-3 animate-fade-in-up">
           💬 Conversation Phrases
         </h2>
-        <div className="space-y-3 mb-8">
+        <div className="space-y-2 mb-6">
           {conversationPhrases.map((conv) => (
             <details
               key={conv.id}
-              className="group rounded-xl bg-white/5 border border-white/10 overflow-hidden"
+              className="group glass-card-flat rounded-xl overflow-hidden"
             >
               <summary className="p-4 cursor-pointer flex items-center justify-between hover:bg-white/5 transition-colors list-none">
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">{conv.emoji}</span>
                   <span className="font-bold text-white">{conv.name}</span>
                 </div>
-                <span className="text-gray-400 group-open:rotate-180 transition-transform">
-                  ▾
-                </span>
+                <span className="text-gray-400 group-open:rotate-180 transition-transform">▾</span>
               </summary>
               <div className="px-4 pb-4 space-y-2">
                 {conv.phrases.map((phrase, i) => (
-                  <div
-                    key={i}
-                    className="flex items-start justify-between p-3 rounded-lg bg-white/5 gap-3"
-                  >
+                  <div key={i} className="flex items-start justify-between p-3 rounded-lg bg-white/3 gap-3">
                     <div className="flex-1">
                       <p className="text-white font-medium">{phrase.spanish}</p>
                       <p className="text-sm text-gray-400">{phrase.english}</p>
-                      <p className="text-xs text-gray-500 mt-1">
-                        {phrase.pronunciation}
-                      </p>
                     </div>
                     <button
                       onClick={() => speakSpanish(phrase.spanish)}
@@ -315,11 +299,10 @@ export default function Home() {
         </div>
 
         {/* Cultural Note */}
-        <div className="bg-gradient-to-br from-amber-600/10 to-orange-600/10 rounded-2xl p-6 mb-8 border border-amber-500/20 animate-fade-in-up">
-          <button
-            onClick={() => setShowCulture(!showCulture)}
-            className="w-full text-left"
-          >
+        <div className="glass-card rounded-2xl p-5 mb-5 animate-fade-in-up"
+          style={{ background: "linear-gradient(135deg, rgba(245, 158, 11, 0.06), transparent)" }}
+        >
+          <button onClick={() => setShowCulture(!showCulture)} className="w-full text-left">
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-semibold text-amber-300 flex items-center gap-2">
                 🌍 Cultural Note {randomCulture.emoji}
@@ -339,131 +322,47 @@ export default function Home() {
         <StreakCalendar />
 
         {/* Idiom of the Day */}
-        <div className="mt-6 bg-gradient-to-br from-purple-600/15 to-pink-600/15 rounded-2xl p-5 border border-purple-500/15">
+        <div className="mt-5 glass-card rounded-2xl p-5 animate-fade-in-up"
+          style={{ background: "linear-gradient(135deg, rgba(168, 85, 247, 0.06), rgba(244, 114, 182, 0.04))" }}
+        >
           <div className="flex items-center justify-between mb-2">
-            <h2 className="text-sm font-semibold text-purple-300 flex items-center gap-2">
-              🎭 Idiom of the Day
-            </h2>
-            <button
-              onClick={() => speakSpanish(idiomOfDay.spanish)}
-              className="text-sky-400 hover:text-sky-300 text-sm"
-            >
-              🔊
-            </button>
+            <h2 className="text-sm font-semibold text-purple-300 flex items-center gap-2">🎭 Idiom of the Day</h2>
+            <button onClick={() => speakSpanish(idiomOfDay.spanish)} className="text-sky-400 hover:text-sky-300 text-sm">🔊</button>
           </div>
           <h3 className="text-xl font-bold text-white">{idiomOfDay.spanish}</h3>
-          <p className="text-purple-300/60 text-xs italic mb-1">
-            Literal: &ldquo;{idiomOfDay.literal}&rdquo;
-          </p>
+          <p className="text-purple-300/50 text-xs italic mb-1">Literal: &ldquo;{idiomOfDay.literal}&rdquo;</p>
           <p className="text-gray-300 text-sm">{idiomOfDay.english}</p>
-          <Link href="/idioms" className="text-purple-400 text-xs mt-2 inline-block hover:text-purple-300">
-            See all idioms →
-          </Link>
+          <Link href="/idioms" className="text-purple-400 text-xs mt-2 inline-block hover:text-purple-300">See all idioms →</Link>
         </div>
 
-        {/* Tongue Twister of the Day */}
-        <div className="mt-4 bg-gradient-to-br from-orange-600/15 to-red-600/15 rounded-2xl p-5 border border-orange-500/15">
+        {/* Tongue Twister */}
+        <div className="mt-3 glass-card rounded-2xl p-5 animate-fade-in-up"
+          style={{ background: "linear-gradient(135deg, rgba(249, 115, 22, 0.06), rgba(239, 68, 68, 0.04))" }}
+        >
           <div className="flex items-center justify-between mb-2">
-            <h2 className="text-sm font-semibold text-orange-300 flex items-center gap-2">
-              🌀 Tongue Twister of the Day
-            </h2>
-            <button
-              onClick={() => speakSpanish(twisterOfDay.spanish)}
-              className="text-sky-400 hover:text-sky-300 text-sm"
-            >
-              🔊
-            </button>
+            <h2 className="text-sm font-semibold text-orange-300 flex items-center gap-2">🌀 Tongue Twister</h2>
+            <button onClick={() => speakSpanish(twisterOfDay.spanish)} className="text-sky-400 hover:text-sky-300 text-sm">🔊</button>
           </div>
           <h3 className="text-lg font-bold text-white">{twisterOfDay.spanish}</h3>
           <p className="text-gray-400 text-sm">{twisterOfDay.english}</p>
-          <Link href="/twisters" className="text-orange-400 text-xs mt-2 inline-block hover:text-orange-300">
-            See all tongue twisters →
-          </Link>
+          <Link href="/twisters" className="text-orange-400 text-xs mt-2 inline-block hover:text-orange-300">See all tongue twisters →</Link>
         </div>
 
-        {/* Quick Actions */}
-        <h2 className="text-lg font-semibold text-white mb-4 animate-fade-in-up">
-          ⚡ Quick Actions
-        </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-          <Link
-            href="/review"
-            className="group rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-indigo-500/20 p-4 text-center transition-transform hover:scale-[1.02]"
-          >
-            <span className="text-2xl block mb-1">🧠</span>
-            <h3 className="font-bold text-white text-xs">Review</h3>
-            <p className="text-xs text-gray-400">Spaced repetition</p>
-          </Link>
-          <Link
-            href="/daily-challenge"
-            className="group rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/20 p-4 text-center transition-transform hover:scale-[1.02]"
-          >
-            <span className="text-2xl block mb-1">🎯</span>
-            <h3 className="font-bold text-white text-xs">Daily</h3>
-            <p className="text-xs text-gray-400">+50 bonus XP</p>
-          </Link>
-          <Link
-            href="/profile"
-            className="group rounded-xl bg-gradient-to-br from-emerald-500/20 to-green-500/20 border border-emerald-500/20 p-4 text-center transition-transform hover:scale-[1.02]"
-          >
-            <span className="text-2xl block mb-1">👤</span>
-            <h3 className="font-bold text-white text-xs">Profile</h3>
-            <p className="text-xs text-gray-400">Level {progress.level}</p>
-          </Link>
-          <Link
-            href="/leaderboard"
-            className="group rounded-xl bg-gradient-to-br from-yellow-500/20 to-amber-500/20 border border-yellow-500/20 p-4 text-center transition-transform hover:scale-[1.02]"
-          >
-            <span className="text-2xl block mb-1">🏆</span>
-            <h3 className="font-bold text-white text-xs">League</h3>
-            <p className="text-xs text-gray-400">Compete</p>
-          </Link>
-        </div>
-
-        {/* Footer Links */}
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 mt-6 mb-8">
-          <Link
-            href="/achievements"
-            className="group rounded-xl bg-gradient-to-br from-yellow-500/20 to-amber-500/20 border border-yellow-500/20 p-3 text-center transition-transform hover:scale-[1.02]"
-          >
-            <span className="text-xl block mb-1">🏆</span>
-            <h3 className="font-bold text-white text-[10px]">Achievements</h3>
-          </Link>
-          <Link
-            href="/rewards"
-            className="group rounded-xl bg-gradient-to-br from-amber-500/20 to-yellow-500/20 border border-amber-500/20 p-3 text-center transition-transform hover:scale-[1.02]"
-          >
-            <span className="text-xl block mb-1">🎁</span>
-            <h3 className="font-bold text-white text-[10px]">Shop</h3>
-          </Link>
-          <Link
-            href="/stats"
-            className="group rounded-xl bg-gradient-to-br from-sky-500/20 to-blue-500/20 border border-sky-500/20 p-3 text-center transition-transform hover:scale-[1.02]"
-          >
-            <span className="text-xl block mb-1">📊</span>
-            <h3 className="font-bold text-white text-[10px]">Stats</h3>
-          </Link>
-          <Link
-            href="/grammar"
-            className="group rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/20 p-3 text-center transition-transform hover:scale-[1.02]"
-          >
-            <span className="text-xl block mb-1">📐</span>
-            <h3 className="font-bold text-white text-[10px]">Grammar</h3>
-          </Link>
-          <Link
-            href="/settings"
-            className="group rounded-xl bg-gradient-to-br from-gray-500/20 to-slate-500/20 border border-gray-500/20 p-3 text-center transition-transform hover:scale-[1.02]"
-          >
-            <span className="text-xl block mb-1">⚙️</span>
-            <h3 className="font-bold text-white text-[10px]">Settings</h3>
-          </Link>
-          <Link
-            href="/onboarding"
-            className="group rounded-xl bg-gradient-to-br from-pink-500/20 to-rose-500/20 border border-pink-500/20 p-3 text-center transition-transform hover:scale-[1.02]"
-          >
-            <span className="text-xl block mb-1">🎓</span>
-            <h3 className="font-bold text-white text-[10px]">Test</h3>
-          </Link>
+        {/* Footer */}
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 mt-6 mb-8">
+          {[
+            { href: "/achievements", emoji: "🏆", label: "Achievements" },
+            { href: "/rewards", emoji: "🎁", label: "Shop" },
+            { href: "/stats", emoji: "📊", label: "Stats" },
+            { href: "/grammar", emoji: "📐", label: "Grammar" },
+            { href: "/settings", emoji: "⚙️", label: "Settings" },
+            { href: "/onboarding", emoji: "🎓", label: "Test" },
+          ].map((item) => (
+            <Link key={item.href} href={item.href} className="glass-card-flat rounded-xl p-3 text-center hover:bg-white/5 transition-all">
+              <span className="text-lg block mb-0.5">{item.emoji}</span>
+              <h3 className="font-bold text-white text-[10px]">{item.label}</h3>
+            </Link>
+          ))}
         </div>
       </div>
     </main>
@@ -484,11 +383,7 @@ function StatCard({
   glow?: boolean;
 }) {
   return (
-    <div
-      className={`bg-white/5 rounded-xl p-3 text-center border border-white/5 ${
-        glow ? "streak-glow border-amber-500/30" : ""
-      }`}
-    >
+    <div className={`stat-card ${glow ? "streak-glow border-amber-500/20!" : ""}`}>
       <div className="text-xl mb-1">{emoji}</div>
       <div className={`text-xl font-bold ${accent}`}>{value}</div>
       <div className="text-xs text-gray-400">{label}</div>
@@ -512,12 +407,12 @@ function GameCard({
   return (
     <Link
       href={href}
-      className={`group rounded-xl bg-gradient-to-br ${color} p-[1px] transition-transform hover:scale-[1.02]`}
+      className={`group rounded-2xl bg-gradient-to-br ${color} p-[1px] transition-all hover:scale-[1.03] hover:shadow-lg`}
     >
-      <div className="bg-neutral-900 rounded-xl p-4 text-center h-full">
-        <span className="text-3xl block mb-1">{emoji}</span>
+      <div className="bg-neutral-950/90 rounded-2xl p-4 text-center h-full">
+        <span className="text-3xl block mb-1 group-hover:scale-110 transition-transform">{emoji}</span>
         <h3 className="font-bold text-white text-sm">{title}</h3>
-        <p className="text-xs text-gray-400">{desc}</p>
+        <p className="text-[10px] text-gray-400">{desc}</p>
       </div>
     </Link>
   );
