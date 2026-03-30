@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { categories, getWordOfTheDay, conversationPhrases, culturalNotes } from "@/data/vocabulary";
+import { getIdiomOfTheDay, getTongueTwisterOfTheDay } from "@/data/extras";
 import { useProgress } from "@/context/ProgressContext";
 import { useTheme } from "@/context/ThemeContext";
 import { speakSpanish } from "@/lib/audio";
 import { useState } from "react";
+import { StreakCalendar } from "@/components/StreakCalendar";
 
 export default function Home() {
   const {
@@ -21,6 +23,8 @@ export default function Home() {
   const todayGoal = getTodayGoal();
   const goalComplete = isGoalComplete();
   const wordOfDay = getWordOfTheDay();
+  const idiomOfDay = getIdiomOfTheDay();
+  const twisterOfDay = getTongueTwisterOfTheDay();
   const [showCulture, setShowCulture] = useState(false);
   const [dayIndex] = useState(() =>
     Math.floor(Date.now() / 86400000) % culturalNotes.length
@@ -195,7 +199,10 @@ export default function Home() {
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
           <GameCard href="/matching" emoji="🃏" title="Matching" desc="Memory card game" color="from-rose-500 to-pink-600" />
           <GameCard href="/listening" emoji="👂" title="Listening" desc="Hear & identify" color="from-sky-500 to-blue-600" />
+          <GameCard href="/speaking" emoji="🎤" title="Speaking" desc="Say it in Spanish" color="from-red-500 to-rose-600" />
           <GameCard href="/typing" emoji="⌨️" title="Typing" desc="Type translations" color="from-fuchsia-500 to-purple-600" />
+          <GameCard href="/hangman" emoji="🎯" title="Hangman" desc="Guess the word" color="from-orange-500 to-red-600" />
+          <GameCard href="/speed" emoji="⚡" title="Speed Round" desc="60 second rush" color="from-amber-500 to-yellow-600" />
           <GameCard href="/sentences" emoji="🏗️" title="Sentences" desc="Build sentences" color="from-teal-500 to-emerald-600" />
           <GameCard href="/verbs" emoji="🔄" title="Verbs" desc="Conjugation trainer" color="from-lime-500 to-green-600" />
           <GameCard href="/quiz" emoji="🧠" title="Quiz" desc="Multiple choice" color="from-indigo-500 to-violet-600" />
@@ -298,25 +305,79 @@ export default function Home() {
           )}
         </div>
 
+        {/* Streak Calendar */}
+        <StreakCalendar />
+
+        {/* Idiom of the Day */}
+        <div className="mt-6 bg-gradient-to-br from-purple-600/15 to-pink-600/15 rounded-2xl p-5 border border-purple-500/15">
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="text-sm font-semibold text-purple-300 flex items-center gap-2">
+              🎭 Idiom of the Day
+            </h2>
+            <button
+              onClick={() => speakSpanish(idiomOfDay.spanish)}
+              className="text-sky-400 hover:text-sky-300 text-sm"
+            >
+              🔊
+            </button>
+          </div>
+          <h3 className="text-xl font-bold text-white">{idiomOfDay.spanish}</h3>
+          <p className="text-purple-300/60 text-xs italic mb-1">
+            Literal: &ldquo;{idiomOfDay.literal}&rdquo;
+          </p>
+          <p className="text-gray-300 text-sm">{idiomOfDay.english}</p>
+          <Link href="/idioms" className="text-purple-400 text-xs mt-2 inline-block hover:text-purple-300">
+            See all idioms →
+          </Link>
+        </div>
+
+        {/* Tongue Twister of the Day */}
+        <div className="mt-4 bg-gradient-to-br from-orange-600/15 to-red-600/15 rounded-2xl p-5 border border-orange-500/15">
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="text-sm font-semibold text-orange-300 flex items-center gap-2">
+              🌀 Tongue Twister of the Day
+            </h2>
+            <button
+              onClick={() => speakSpanish(twisterOfDay.spanish)}
+              className="text-sky-400 hover:text-sky-300 text-sm"
+            >
+              🔊
+            </button>
+          </div>
+          <h3 className="text-lg font-bold text-white">{twisterOfDay.spanish}</h3>
+          <p className="text-gray-400 text-sm">{twisterOfDay.english}</p>
+          <Link href="/twisters" className="text-orange-400 text-xs mt-2 inline-block hover:text-orange-300">
+            See all tongue twisters →
+          </Link>
+        </div>
+
         {/* Footer Links */}
-        <div className="grid grid-cols-2 gap-3 mb-8">
+        <div className="grid grid-cols-3 gap-3 mt-6 mb-8">
           <Link
             href="/achievements"
             className="group rounded-xl bg-gradient-to-br from-yellow-500/20 to-amber-500/20 border border-yellow-500/20 p-4 text-center transition-transform hover:scale-[1.02]"
           >
-            <span className="text-3xl block mb-1">🏆</span>
-            <h3 className="font-bold text-white text-sm">Achievements</h3>
+            <span className="text-2xl block mb-1">🏆</span>
+            <h3 className="font-bold text-white text-xs">Achievements</h3>
             <p className="text-xs text-gray-400">
               {progress.unlockedAchievements.length} unlocked
             </p>
           </Link>
           <Link
-            href="/quiz"
-            className="group rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-indigo-500/20 p-4 text-center transition-transform hover:scale-[1.02]"
+            href="/rewards"
+            className="group rounded-xl bg-gradient-to-br from-amber-500/20 to-yellow-500/20 border border-amber-500/20 p-4 text-center transition-transform hover:scale-[1.02]"
           >
-            <span className="text-3xl block mb-1">📝</span>
-            <h3 className="font-bold text-white text-sm">Quick Quiz</h3>
-            <p className="text-xs text-gray-400">Test your knowledge</p>
+            <span className="text-2xl block mb-1">🎁</span>
+            <h3 className="font-bold text-white text-xs">Shop</h3>
+            <p className="text-xs text-gray-400">{progress.xp} XP</p>
+          </Link>
+          <Link
+            href="/grammar"
+            className="group rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/20 p-4 text-center transition-transform hover:scale-[1.02]"
+          >
+            <span className="text-2xl block mb-1">📐</span>
+            <h3 className="font-bold text-white text-xs">Grammar</h3>
+            <p className="text-xs text-gray-400">8 lessons</p>
           </Link>
         </div>
       </div>

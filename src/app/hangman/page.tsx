@@ -1,0 +1,78 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { categories } from "@/data/vocabulary";
+import { HangmanGame } from "@/components/HangmanGame";
+
+export default function HangmanPage() {
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  if (selectedCategory) {
+    const cat = categories.find((c) => c.id === selectedCategory);
+    if (!cat) return null;
+
+    return (
+      <main className="min-h-screen bg-neutral-950">
+        <div className="max-w-2xl mx-auto px-4 py-8">
+          <div className="flex items-center justify-between mb-8">
+            <button
+              onClick={() => setSelectedCategory(null)}
+              className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"
+            >
+              <span>←</span>
+              <span>Back</span>
+            </button>
+            <h1 className="text-xl font-bold text-white flex items-center gap-2">
+              🎯 Hangman
+            </h1>
+            <div />
+          </div>
+          <HangmanGame
+            words={cat.words}
+            categoryId={selectedCategory}
+            onComplete={() => {}}
+          />
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <main className="min-h-screen bg-neutral-950">
+      <div className="max-w-2xl mx-auto px-4 py-8">
+        <div className="flex items-center justify-between mb-8">
+          <Link
+            href="/"
+            className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"
+          >
+            <span>←</span>
+            <span>Home</span>
+          </Link>
+          <h1 className="text-xl font-bold text-white">🎯 Hangman</h1>
+          <div />
+        </div>
+        <p className="text-gray-400 mb-8 text-center">
+          Guess the Spanish word letter by letter before the hangman is complete!
+        </p>
+        <div className="grid grid-cols-1 gap-4">
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setSelectedCategory(cat.id)}
+              className={`rounded-2xl bg-gradient-to-br ${cat.color} p-[1px] transition-transform hover:scale-[1.02] text-left`}
+            >
+              <div className="bg-neutral-900 rounded-2xl p-6 flex items-center gap-4">
+                <span className="text-4xl">{cat.emoji}</span>
+                <div>
+                  <h3 className="text-lg font-bold text-white">{cat.name}</h3>
+                  <p className="text-sm text-gray-400">{cat.words.length} words</p>
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </main>
+  );
+}

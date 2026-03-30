@@ -49,6 +49,11 @@ interface ProgressData {
   typingExercises: number;
   sentencesBuilt: number;
   verbsPracticed: number;
+  speechExercises: number;
+  hangmanGames: number;
+  speedRounds: number;
+  // Rewards
+  purchasedRewards: string[];
 }
 
 interface ProgressContextType {
@@ -90,6 +95,9 @@ interface ProgressContextType {
     typingExercises: number;
     sentencesBuilt: number;
     verbsPracticed: number;
+    speechExercises: number;
+    hangmanGames: number;
+    speedRounds: number;
   };
   // Game mode trackers
   recordMatch: () => void;
@@ -97,8 +105,15 @@ interface ProgressContextType {
   recordTyping: () => void;
   recordSentence: () => void;
   recordVerbPractice: () => void;
+  recordSpeech: () => void;
+  recordHangman: () => void;
+  recordSpeedRound: () => void;
   exploreCategory: (id: string) => void;
-  // Categories explored tracking
+  // Rewards
+  purchaseReward: (id: string, cost: number) => boolean;
+  hasPurchased: (id: string) => boolean;
+  // Streak history
+  getStreakDays: () => string[];
 }
 
 const ProgressContext = createContext<ProgressContextType | null>(null);
@@ -127,6 +142,10 @@ function getDefaultProgress(): ProgressData {
     typingExercises: 0,
     sentencesBuilt: 0,
     verbsPracticed: 0,
+    speechExercises: 0,
+    hangmanGames: 0,
+    speedRounds: 0,
+    purchasedRewards: [],
   };
 }
 
@@ -467,6 +486,9 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       typingExercises: progress.typingExercises,
       sentencesBuilt: progress.sentencesBuilt,
       verbsPracticed: progress.verbsPracticed,
+      speechExercises: progress.speechExercises,
+      hangmanGames: progress.hangmanGames,
+      speedRounds: progress.speedRounds,
     };
   }, [progress]);
 
@@ -525,6 +547,58 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     [setProgress]
   );
 
+  const recordSpeech = useCallback(() => {
+    updateStreak();
+    setProgress((prev) => ({
+      ...prev,
+      speechExercises: prev.speechExercises + 1,
+    }));
+    addXP(20);
+  }, [updateStreak, setProgress, addXP]);
+
+  const recordHangman = useCallback(() => {
+    updateStreak();
+    setProgress((prev) => ({
+      ...prev,
+      hangmanGames: prev.hangmanGames + 1,
+    }));
+    addXP(15);
+  }, [updateStreak, setProgress, addXP]);
+
+  const recordSpeedRound = useCallback(() => {
+    updateStreak();
+    setProgress((prev) => ({
+      ...prev,
+      speedRounds: prev.speedRounds + 1,
+    }));
+    addXP(15);
+  }, [updateStreak, setProgress, addXP]);
+
+  const purchaseReward = useCallback(
+    (id: string, cost: number) => {
+      if (progress.xp < cost) return false;
+      if (progress.purchasedRewards.includes(id)) return false;
+      setProgress((prev) => ({
+        ...prev,
+        xp: prev.xp - cost,
+        purchasedRewards: [...prev.purchasedRewards, id],
+      }));
+      return true;
+    },
+    [progress.xp, progress.purchasedRewards, setProgress]
+  );
+
+  const hasPurchased = useCallback(
+    (id: string) => {
+      return progress.purchasedRewards.includes(id);
+    },
+    [progress.purchasedRewards]
+  );
+
+  const getStreakDays = useCallback(() => {
+    return Object.keys(progress.dailyHistory).sort();
+  }, [progress.dailyHistory]);
+
   return (
     <ProgressContext.Provider
       value={{
@@ -550,7 +624,13 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         recordTyping,
         recordSentence,
         recordVerbPractice,
+        recordSpeech,
+        recordHangman,
+        recordSpeedRound,
         exploreCategory,
+        purchaseReward,
+        hasPurchased,
+        getStreakDays,
       }}
     >
       {children}
