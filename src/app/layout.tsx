@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ProgressProvider } from "@/context/ProgressContext";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { ToastContainer } from "@/components/Toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +32,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-neutral-950 text-white min-h-screen dark`}
       >
         <ThemeProvider>
-          <ProgressProvider>{children}</ProgressProvider>
+          <ProgressProvider>
+            <ToastContainer />
+            {children}
+          </ProgressProvider>
         </ThemeProvider>
       </body>
     </html>

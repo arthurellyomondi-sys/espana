@@ -376,33 +376,88 @@ export default function Home() {
           </Link>
         </div>
 
-        {/* Footer Links */}
-        <div className="grid grid-cols-3 gap-3 mt-6 mb-8">
+        {/* Quick Actions */}
+        <h2 className="text-lg font-semibold text-white mb-4 animate-fade-in-up">
+          ⚡ Quick Actions
+        </h2>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
           <Link
-            href="/achievements"
+            href="/review"
+            className="group rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-indigo-500/20 p-4 text-center transition-transform hover:scale-[1.02]"
+          >
+            <span className="text-2xl block mb-1">🧠</span>
+            <h3 className="font-bold text-white text-xs">Review</h3>
+            <p className="text-xs text-gray-400">Spaced repetition</p>
+          </Link>
+          <Link
+            href="/daily-challenge"
+            className="group rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/20 p-4 text-center transition-transform hover:scale-[1.02]"
+          >
+            <span className="text-2xl block mb-1">🎯</span>
+            <h3 className="font-bold text-white text-xs">Daily</h3>
+            <p className="text-xs text-gray-400">+50 bonus XP</p>
+          </Link>
+          <Link
+            href="/profile"
+            className="group rounded-xl bg-gradient-to-br from-emerald-500/20 to-green-500/20 border border-emerald-500/20 p-4 text-center transition-transform hover:scale-[1.02]"
+          >
+            <span className="text-2xl block mb-1">👤</span>
+            <h3 className="font-bold text-white text-xs">Profile</h3>
+            <p className="text-xs text-gray-400">Level {progress.level}</p>
+          </Link>
+          <Link
+            href="/leaderboard"
             className="group rounded-xl bg-gradient-to-br from-yellow-500/20 to-amber-500/20 border border-yellow-500/20 p-4 text-center transition-transform hover:scale-[1.02]"
           >
             <span className="text-2xl block mb-1">🏆</span>
-            <h3 className="font-bold text-white text-xs">Achievements</h3>
-            <p className="text-xs text-gray-400">
-              {progress.unlockedAchievements.length} unlocked
-            </p>
+            <h3 className="font-bold text-white text-xs">League</h3>
+            <p className="text-xs text-gray-400">Compete</p>
+          </Link>
+        </div>
+
+        {/* Footer Links */}
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 mt-6 mb-8">
+          <Link
+            href="/achievements"
+            className="group rounded-xl bg-gradient-to-br from-yellow-500/20 to-amber-500/20 border border-yellow-500/20 p-3 text-center transition-transform hover:scale-[1.02]"
+          >
+            <span className="text-xl block mb-1">🏆</span>
+            <h3 className="font-bold text-white text-[10px]">Achievements</h3>
           </Link>
           <Link
             href="/rewards"
-            className="group rounded-xl bg-gradient-to-br from-amber-500/20 to-yellow-500/20 border border-amber-500/20 p-4 text-center transition-transform hover:scale-[1.02]"
+            className="group rounded-xl bg-gradient-to-br from-amber-500/20 to-yellow-500/20 border border-amber-500/20 p-3 text-center transition-transform hover:scale-[1.02]"
           >
-            <span className="text-2xl block mb-1">🎁</span>
-            <h3 className="font-bold text-white text-xs">Shop</h3>
-            <p className="text-xs text-gray-400">{progress.xp} XP</p>
+            <span className="text-xl block mb-1">🎁</span>
+            <h3 className="font-bold text-white text-[10px]">Shop</h3>
+          </Link>
+          <Link
+            href="/stats"
+            className="group rounded-xl bg-gradient-to-br from-sky-500/20 to-blue-500/20 border border-sky-500/20 p-3 text-center transition-transform hover:scale-[1.02]"
+          >
+            <span className="text-xl block mb-1">📊</span>
+            <h3 className="font-bold text-white text-[10px]">Stats</h3>
           </Link>
           <Link
             href="/grammar"
-            className="group rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/20 p-4 text-center transition-transform hover:scale-[1.02]"
+            className="group rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/20 p-3 text-center transition-transform hover:scale-[1.02]"
           >
-            <span className="text-2xl block mb-1">📐</span>
-            <h3 className="font-bold text-white text-xs">Grammar</h3>
-            <p className="text-xs text-gray-400">8 lessons</p>
+            <span className="text-xl block mb-1">📐</span>
+            <h3 className="font-bold text-white text-[10px]">Grammar</h3>
+          </Link>
+          <Link
+            href="/settings"
+            className="group rounded-xl bg-gradient-to-br from-gray-500/20 to-slate-500/20 border border-gray-500/20 p-3 text-center transition-transform hover:scale-[1.02]"
+          >
+            <span className="text-xl block mb-1">⚙️</span>
+            <h3 className="font-bold text-white text-[10px]">Settings</h3>
+          </Link>
+          <Link
+            href="/onboarding"
+            className="group rounded-xl bg-gradient-to-br from-pink-500/20 to-rose-500/20 border border-pink-500/20 p-3 text-center transition-transform hover:scale-[1.02]"
+          >
+            <span className="text-xl block mb-1">🎓</span>
+            <h3 className="font-bold text-white text-[10px]">Test</h3>
           </Link>
         </div>
       </div>

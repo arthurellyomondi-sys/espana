@@ -57,9 +57,10 @@ export default function LessonPlayPage() {
 
     if (currentIndex + 1 >= totalExercises) {
       if (!alreadyCompleted) {
-        completeLesson(lessonId);
+        completeLesson(lessonId, hearts);
         const xp = lesson?.xpReward ?? 15;
-        addXP(xp, "Lesson completed");
+        const perfectBonus = hearts === 5 ? 10 : 0;
+        addXP(xp + perfectBonus, "Lesson completed");
       }
       setGameState("finished");
     } else {
@@ -125,7 +126,12 @@ export default function LessonPlayPage() {
 
             <div className="bg-indigo-500/10 rounded-xl p-4 mb-8">
               <p className="text-sm text-indigo-300">XP Earned</p>
-              <p className="text-3xl font-bold text-indigo-400">+{lesson.xpReward}</p>
+              <p className="text-3xl font-bold text-indigo-400">
+                +{lesson.xpReward + (hearts === 5 ? 10 : 0)}
+              </p>
+              {hearts === 5 && (
+                <p className="text-xs text-amber-400 mt-1">Includes +10 Perfect Bonus!</p>
+              )}
             </div>
 
             <div className="space-y-3">

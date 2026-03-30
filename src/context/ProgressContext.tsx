@@ -8,6 +8,7 @@ import {
   ReactNode,
 } from "react";
 import { getAllLessons } from "@/data/lessons";
+import { showToast } from "@/components/Toast";
 
 interface WordProgress {
   wordKey: string;
@@ -32,19 +33,14 @@ interface ProgressData {
   totalQuizzesTaken: number;
   totalCardsReviewed: number;
   bestStreak: number;
-  // New: XP & Leveling
   xp: number;
   level: number;
-  // New: Daily goals
   dailyGoalTarget: number;
   dailyHistory: Record<string, DailyGoalData>;
-  // New: Spaced repetition
   wordProgress: Record<string, WordProgress>;
-  // New: Achievements
   unlockedAchievements: string[];
   perfectQuizzes: number;
   categoriesExplored: string[];
-  // New: Game mode stats
   matchesPlayed: number;
   listeningExercises: number;
   typingExercises: number;
@@ -53,56 +49,62 @@ interface ProgressData {
   speechExercises: number;
   hangmanGames: number;
   speedRounds: number;
-  // Rewards
   purchasedRewards: string[];
-  // Lessons
   completedLessons: string[];
+  // New features
+  soundEnabled: boolean;
+  streakFreezes: number;
+  lessonCrowns: Record<string, number>; // lessonId -> crown level (0-5)
+  totalCrowns: number;
+  maxCombo: number;
+  currentCombo: number;
+  reviewSessions: number;
+  dailyChallengeDate: string | null;
+  dailyChallengeCompleted: boolean;
+}
+
+interface AchievementStatsResult {
+  learnedWords: number;
+  totalQuizzesTaken: number;
+  totalCardsReviewed: number;
+  currentStreak: number;
+  bestStreak: number;
+  perfectQuizzes: number;
+  categoriesExplored: number;
+  totalXP: number;
+  level: number;
+  matchesPlayed: number;
+  listeningExercises: number;
+  typingExercises: number;
+  sentencesBuilt: number;
+  verbsPracticed: number;
+  speechExercises: number;
+  hangmanGames: number;
+  speedRounds: number;
+  lessonsCompleted: number;
+  crownsEarned: number;
+  maxCombo: number;
+  reviewSessions: number;
 }
 
 interface ProgressContextType {
   progress: ProgressData;
-  // Word learning
   markWordLearned: (word: string) => void;
   isWordLearned: (word: string) => boolean;
-  // Quiz
   saveQuizScore: (categoryId: string, score: number) => void;
   incrementCardsReviewed: () => void;
-  // Progress
   getCategoryProgress: (categoryId: string, totalWords: number) => number;
   getOverallProgress: () => number;
-  // XP & Leveling
-  addXP: (amount: number, reason: string) => void;
+  addXP: (amount: number, reason?: string) => void;
   getXPForNextLevel: () => number;
   getXPProgress: () => number;
-  // Daily goals
   getTodayGoal: () => DailyGoalData;
   isGoalComplete: () => boolean;
   setDailyGoalTarget: (target: number) => void;
-  // Spaced repetition
   updateWordStrength: (wordKey: string, correct: boolean) => void;
   getWordsForReview: () => string[];
-  // Achievements
   unlockAchievement: (id: string) => void;
-  getAchievementStats: () => {
-    learnedWords: number;
-    totalQuizzesTaken: number;
-    totalCardsReviewed: number;
-    currentStreak: number;
-    bestStreak: number;
-    perfectQuizzes: number;
-    categoriesExplored: number;
-    totalXP: number;
-    level: number;
-    matchesPlayed: number;
-    listeningExercises: number;
-    typingExercises: number;
-    sentencesBuilt: number;
-    verbsPracticed: number;
-    speechExercises: number;
-    hangmanGames: number;
-    speedRounds: number;
-  };
-  // Game mode trackers
+  getAchievementStats: () => AchievementStatsResult;
   recordMatch: () => void;
   recordListening: () => void;
   recordTyping: () => void;
@@ -112,20 +114,26 @@ interface ProgressContextType {
   recordHangman: () => void;
   recordSpeedRound: () => void;
   exploreCategory: (id: string) => void;
-  // Rewards
   purchaseReward: (id: string, cost: number) => boolean;
   hasPurchased: (id: string) => boolean;
-  // Streak history
   getStreakDays: () => string[];
-  // Lessons
-  completeLesson: (lessonId: string) => void;
+  completeLesson: (lessonId: string, heartsRemaining: number) => void;
   isLessonCompleted: (lessonId: string) => boolean;
   isLessonUnlocked: (lessonId: string) => boolean;
+  getLessonCrown: (lessonId: string) => number;
+  toggleSound: () => void;
+  useStreakFreeze: () => boolean;
+  recordCombo: (correct: boolean) => void;
+  incrementReviewSessions: () => void;
+  completeDailyChallenge: () => void;
+  isDailyChallengeDone: () => boolean;
+  exportProgress: () => string;
+  importProgress: (data: string) => boolean;
 }
 
 const ProgressContext = createContext<ProgressContextType | null>(null);
 
-const STORAGE_KEY = "aprende-progress-v2";
+const STORAGE_KEY = "aprende-progress-v3";
 
 function getDefaultProgress(): ProgressData {
   return {
@@ -154,6 +162,15 @@ function getDefaultProgress(): ProgressData {
     speedRounds: 0,
     purchasedRewards: [],
     completedLessons: [],
+    soundEnabled: true,
+    streakFreezes: 0,
+    lessonCrowns: {},
+    totalCrowns: 0,
+    maxCombo: 0,
+    currentCombo: 0,
+    reviewSessions: 0,
+    dailyChallengeDate: null,
+    dailyChallengeCompleted: false,
   };
 }
 
@@ -168,6 +185,14 @@ function checkAndUpdateStreak(data: ProgressData): ProgressData {
   );
 
   if (diffDays > 1) {
+    // Auto-use streak freeze if available
+    if (data.streakFreezes > 0) {
+      return {
+        ...data,
+        streakFreezes: data.streakFreezes - 1,
+        lastPracticeDate: today,
+      };
+    }
     return { ...data, currentStreak: 0 };
   }
   return data;
@@ -181,7 +206,21 @@ function loadProgress(): ProgressData {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (!stored) return getDefaultProgress();
     const data = JSON.parse(stored) as ProgressData;
-    return checkAndUpdateStreak(data);
+    const defaults = getDefaultProgress();
+    const merged = {
+      ...defaults,
+      ...data,
+    };
+    merged.soundEnabled = data.soundEnabled ?? true;
+    merged.streakFreezes = data.streakFreezes ?? 0;
+    merged.lessonCrowns = data.lessonCrowns ?? {};
+    merged.totalCrowns = data.totalCrowns ?? 0;
+    merged.maxCombo = data.maxCombo ?? 0;
+    merged.currentCombo = data.currentCombo ?? 0;
+    merged.reviewSessions = data.reviewSessions ?? 0;
+    merged.dailyChallengeDate = data.dailyChallengeDate ?? null;
+    merged.dailyChallengeCompleted = data.dailyChallengeCompleted ?? false;
+    return checkAndUpdateStreak(merged);
   } catch {
     return getDefaultProgress();
   }
@@ -193,8 +232,6 @@ function saveProgress(data: ProgressData) {
 }
 
 function getLevelFromXP(xp: number): number {
-  // Level formula: each level requires more XP
-  // Level 1: 0, Level 2: 100, Level 3: 250, Level 4: 450, etc.
   let level = 1;
   let required = 100;
   let total = 0;
@@ -246,6 +283,14 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         : 999;
 
       const newStreak = diffDays <= 1 ? prev.currentStreak + 1 : 1;
+      if (newStreak > 0 && newStreak % 7 === 0) {
+        showToast({
+          type: "streak",
+          title: `${newStreak}-Day Streak!`,
+          message: "You're on fire! Keep it up!",
+          emoji: "🔥",
+        });
+      }
       return {
         ...prev,
         currentStreak: newStreak,
@@ -259,7 +304,16 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     (amount: number, _reason?: string) => {
       setProgress((prev) => {
         const newXP = prev.xp + amount;
+        const oldLevel = prev.level;
         const newLevel = getLevelFromXP(newXP);
+        if (newLevel > oldLevel) {
+          showToast({
+            type: "level-up",
+            title: `Level ${newLevel}!`,
+            message: `You've reached level ${newLevel}!`,
+            emoji: "⭐",
+          });
+        }
         return { ...prev, xp: newXP, level: newLevel };
       });
     },
@@ -380,7 +434,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   );
 
   const getOverallProgress = useCallback(() => {
-    const totalWords = 96;
+    const totalWords = 152;
     return Math.min(
       100,
       Math.round((progress.learnedWords.length / totalWords) * 100)
@@ -478,7 +532,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     [setProgress, addXP]
   );
 
-  const getAchievementStats = useCallback(() => {
+  const getAchievementStats = useCallback((): AchievementStatsResult => {
     return {
       learnedWords: progress.learnedWords.length,
       totalQuizzesTaken: progress.totalQuizzesTaken,
@@ -497,6 +551,10 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       speechExercises: progress.speechExercises,
       hangmanGames: progress.hangmanGames,
       speedRounds: progress.speedRounds,
+      lessonsCompleted: progress.completedLessons.length,
+      crownsEarned: progress.totalCrowns,
+      maxCombo: progress.maxCombo,
+      reviewSessions: progress.reviewSessions,
     };
   }, [progress]);
 
@@ -586,10 +644,15 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     (id: string, cost: number) => {
       if (progress.xp < cost) return false;
       if (progress.purchasedRewards.includes(id)) return false;
+      const reward = { id };
       setProgress((prev) => ({
         ...prev,
         xp: prev.xp - cost,
-        purchasedRewards: [...prev.purchasedRewards, id],
+        purchasedRewards: [...prev.purchasedRewards, reward.id],
+        streakFreezes:
+          id === "streak-freeze"
+            ? prev.streakFreezes + 1
+            : prev.streakFreezes,
       }));
       return true;
     },
@@ -608,13 +671,40 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   }, [progress.dailyHistory]);
 
   const completeLesson = useCallback(
-    (lessonId: string) => {
+    (lessonId: string, heartsRemaining: number) => {
       updateStreak();
       setProgress((prev) => {
-        if (prev.completedLessons.includes(lessonId)) return prev;
+        const isNew = !prev.completedLessons.includes(lessonId);
+        const currentCrown = prev.lessonCrowns[lessonId] ?? 0;
+        const newCrown = Math.min(5, currentCrown + 1);
+        const crownGained = newCrown > currentCrown;
+        const isPerfect = heartsRemaining === 5;
+
+        if (isNew && isPerfect) {
+          showToast({
+            type: "xp",
+            title: "Perfect Lesson!",
+            message: "+10 bonus XP for no mistakes!",
+            emoji: "💯",
+          });
+        }
+
+        if (crownGained && newCrown >= 3) {
+          showToast({
+            type: "achievement",
+            title: `${newCrown} Crowns!`,
+            message: `Mastery level ${newCrown} achieved!`,
+            emoji: "👑",
+          });
+        }
+
         return {
           ...prev,
-          completedLessons: [...prev.completedLessons, lessonId],
+          completedLessons: isNew
+            ? [...prev.completedLessons, lessonId]
+            : prev.completedLessons,
+          lessonCrowns: { ...prev.lessonCrowns, [lessonId]: newCrown },
+          totalCrowns: crownGained ? prev.totalCrowns + 1 : prev.totalCrowns,
         };
       });
     },
@@ -637,6 +727,96 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       return progress.completedLessons.includes(allLessons[idx - 1].id);
     },
     [progress.completedLessons]
+  );
+
+  const getLessonCrown = useCallback(
+    (lessonId: string) => {
+      return progress.lessonCrowns[lessonId] ?? 0;
+    },
+    [progress.lessonCrowns]
+  );
+
+  const toggleSound = useCallback(() => {
+    setProgress((prev) => ({ ...prev, soundEnabled: !prev.soundEnabled }));
+  }, [setProgress]);
+
+  const useStreakFreeze = useCallback(() => {
+    if (progress.streakFreezes <= 0) return false;
+    setProgress((prev) => ({
+      ...prev,
+      streakFreezes: prev.streakFreezes - 1,
+    }));
+    return true;
+  }, [progress.streakFreezes, setProgress]);
+
+  const recordCombo = useCallback(
+    (correct: boolean) => {
+      if (correct) {
+        setProgress((prev) => {
+          const newCombo = prev.currentCombo + 1;
+          return {
+            ...prev,
+            currentCombo: newCombo,
+            maxCombo: Math.max(prev.maxCombo, newCombo),
+          };
+        });
+      } else {
+        setProgress((prev) => ({ ...prev, currentCombo: 0 }));
+      }
+    },
+    [setProgress]
+  );
+
+  const incrementReviewSessions = useCallback(() => {
+    updateStreak();
+    setProgress((prev) => ({
+      ...prev,
+      reviewSessions: prev.reviewSessions + 1,
+    }));
+    addXP(20);
+  }, [updateStreak, setProgress, addXP]);
+
+  const completeDailyChallenge = useCallback(() => {
+    const today = new Date().toISOString().split("T")[0];
+    setProgress((prev) => ({
+      ...prev,
+      dailyChallengeDate: today,
+      dailyChallengeCompleted: true,
+    }));
+    addXP(50);
+    showToast({
+      type: "xp",
+      title: "Daily Challenge Complete!",
+      message: "+50 bonus XP!",
+      emoji: "🎯",
+    });
+  }, [setProgress, addXP]);
+
+  const isDailyChallengeDone = useCallback(() => {
+    const today = new Date().toISOString().split("T")[0];
+    return (
+      progress.dailyChallengeDate === today && progress.dailyChallengeCompleted
+    );
+  }, [progress.dailyChallengeDate, progress.dailyChallengeCompleted]);
+
+  const exportProgress = useCallback(() => {
+    return JSON.stringify(progress);
+  }, [progress]);
+
+  const importProgress = useCallback(
+    (data: string) => {
+      try {
+        const parsed = JSON.parse(data) as ProgressData;
+        setProgress(() => ({
+          ...getDefaultProgress(),
+          ...parsed,
+        }));
+        return true;
+      } catch {
+        return false;
+      }
+    },
+    [setProgress]
   );
 
   return (
@@ -674,6 +854,15 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         completeLesson,
         isLessonCompleted,
         isLessonUnlocked,
+        getLessonCrown,
+        toggleSound,
+        useStreakFreeze,
+        recordCombo,
+        incrementReviewSessions,
+        completeDailyChallenge,
+        isDailyChallengeDone,
+        exportProgress,
+        importProgress,
       }}
     >
       {children}

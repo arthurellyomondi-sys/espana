@@ -76,7 +76,7 @@ export default function VerbsPage() {
             </div>
 
             <div className="space-y-2">
-              {verb.conjugations.map((conj) => (
+              {verb.conjugations.present.map((conj) => (
                 <div
                   key={conj.person}
                   className="flex items-center justify-between p-3 rounded-lg bg-white/5"

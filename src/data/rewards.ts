@@ -4,7 +4,7 @@ export interface Reward {
   description: string;
   emoji: string;
   cost: number;
-  type: "theme" | "badge" | "avatar";
+  type: "theme" | "badge" | "avatar" | "consumable";
   unlocked: boolean;
 }
 
@@ -115,6 +115,15 @@ export const rewards: Reward[] = [
     emoji: "🚀",
     cost: 300,
     type: "badge",
+    unlocked: false,
+  },
+  {
+    id: "streak-freeze",
+    name: "Streak Freeze",
+    description: "Protects your streak for one missed day",
+    emoji: "🧊",
+    cost: 100,
+    type: "consumable",
     unlocked: false,
   },
 ];

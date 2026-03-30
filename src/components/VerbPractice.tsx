@@ -29,12 +29,14 @@ interface VerbQuestion {
 function generateQuestions(): VerbQuestion[] {
   const questions: VerbQuestion[] = [];
   const shuffledVerbs = shuffleArray(verbs).slice(0, 5);
+  const tenseKey = "present" as const;
 
   for (const verb of shuffledVerbs) {
-    const conjugations = shuffleArray(verb.conjugations).slice(0, 2);
+    const allConjugations = verb.conjugations[tenseKey];
+    const conjugations = shuffleArray(allConjugations).slice(0, 2);
     for (const conj of conjugations) {
       const wrongAnswers = shuffleArray(
-        verb.conjugations
+        allConjugations
           .filter((c) => c.spanish !== conj.spanish)
           .map((c) => c.spanish)
       ).slice(0, 3);

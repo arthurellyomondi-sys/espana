@@ -21,6 +21,10 @@ export interface AchievementStats {
   typingExercises: number;
   sentencesBuilt: number;
   verbsPracticed: number;
+  lessonsCompleted: number;
+  crownsEarned: number;
+  maxCombo: number;
+  reviewSessions: number;
 }
 
 export const achievements: Achievement[] = [
@@ -156,6 +160,62 @@ export const achievements: Achievement[] = [
     description: "Practice all verbs",
     emoji: "🔄",
     check: (s) => s.verbsPracticed >= 10,
+  },
+  {
+    id: "first-lesson",
+    name: "Lesson One",
+    description: "Complete your first lesson",
+    emoji: "📝",
+    check: (s) => s.lessonsCompleted >= 1,
+  },
+  {
+    id: "ten-lessons",
+    name: "Lesson Master",
+    description: "Complete 10 lessons",
+    emoji: "🎓",
+    check: (s) => s.lessonsCompleted >= 10,
+  },
+  {
+    id: "all-lessons",
+    name: "Course Complete",
+    description: "Complete all lessons",
+    emoji: "🏆",
+    check: (s) => s.lessonsCompleted >= 18,
+  },
+  {
+    id: "first-crown",
+    name: "Crowned",
+    description: "Earn your first crown",
+    emoji: "👑",
+    check: (s) => s.crownsEarned >= 1,
+  },
+  {
+    id: "five-crowns",
+    name: "Royal Court",
+    description: "Earn 5 crowns",
+    emoji: "🏅",
+    check: (s) => s.crownsEarned >= 5,
+  },
+  {
+    id: "combo-5",
+    name: "Combo Starter",
+    description: "Get a 5x combo",
+    emoji: "🔥",
+    check: (s) => s.maxCombo >= 5,
+  },
+  {
+    id: "combo-10",
+    name: "Combo King",
+    description: "Get a 10x combo",
+    emoji: "💫",
+    check: (s) => s.maxCombo >= 10,
+  },
+  {
+    id: "first-review",
+    name: "Spaced Out",
+    description: "Complete your first review session",
+    emoji: "🧠",
+    check: (s) => s.reviewSessions >= 1,
   },
 ];
 
