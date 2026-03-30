@@ -2,65 +2,47 @@
 
 ## Current State
 
-**Status**: Fully featured Spanish learning app with all requested features built and deployed.
+**Status**: Fully featured Spanish learning app with 16 pages and 9 game modes.
 
 ## Recently Completed
 
-- [x] 12 vocabulary categories (Greetings, Food, Numbers, Colors, Animals, Travel, Body, Weather, Family, Clothing, Directions, Emergency)
-- [x] 6 game modes (Flashcards, Quiz, Matching, Listening, Typing, Sentence Builder)
-- [x] Verb conjugation trainer with 10 common verbs
-- [x] XP & leveling system with progress tracking
-- [x] Daily goals with XP targets
-- [x] 19 achievements/badges system
-- [x] Spaced repetition for word review scheduling
-- [x] Audio pronunciation via Web Speech API
-- [x] Sound effects for correct/wrong answers
-- [x] Conversation phrases (5 scenarios)
-- [x] Cultural notes about Spanish-speaking countries
-- [x] Word of the Day feature
+- [x] 12 vocabulary categories (96 words)
+- [x] 9 game modes (Flashcards, Quiz, Matching, Listening, Speaking, Typing, Hangman, Speed Round, Sentence Builder)
+- [x] Verb conjugation trainer (10 verbs with full conjugation tables)
+- [x] XP & leveling system, daily goals, 19 achievements, streak tracking
+- [x] Spaced repetition system (word strength 0-5, review scheduling)
+- [x] Audio pronunciation (Web Speech API) + sound effects (Web Audio API)
+- [x] Conversation phrases (5 scenarios: Restaurant, Hotel, Directions, Shopping, Emergency)
+- [x] Cultural notes (6 countries)
+- [x] Word of the Day, Idiom of the Day, Tongue Twister of the Day
+- [x] Tongue Twisters section (10 twisters with difficulty levels & tips)
+- [x] Spanish Idioms section (14 idioms with literal translations)
+- [x] Grammar Tips (8 lessons: Ser/Estar, gender, adjectives, verb tenses, pronouns, reflexives, preterite/imperfect)
+- [x] Streak Calendar (28-day practice heatmap)
+- [x] Rewards Shop (12 purchasable items: themes, avatars, badges)
+- [x] Speech Recognition pronunciation practice (Web Speech API + Levenshtein scoring)
 - [x] Light/dark theme toggle
-- [x] Progress persistence via localStorage
 
-## Current Structure
-
-| File/Directory | Purpose |
-|----------------|---------|
-| `src/app/page.tsx` | Home dashboard with all features |
-| `src/app/learn/[category]/page.tsx` | Flashcards & quiz per category |
-| `src/app/quiz/page.tsx` | Quick quiz selection |
-| `src/app/matching/page.tsx` | Matching memory game |
-| `src/app/listening/page.tsx` | Listening mode |
-| `src/app/typing/page.tsx` | Typing mode |
-| `src/app/sentences/page.tsx` | Sentence builder |
-| `src/app/verbs/page.tsx` | Verb conjugation trainer |
-| `src/app/achievements/page.tsx` | Achievements & stats |
-| `src/data/vocabulary.ts` | 12 categories, 96 words, conversations, cultural notes |
-| `src/data/verbs.ts` | 10 verbs, sentence exercises |
-| `src/data/achievements.ts` | 19 achievement definitions |
-| `src/context/ProgressContext.tsx` | Full progress/XP/streak management |
-| `src/context/ThemeContext.tsx` | Light/dark theme |
-| `src/components/Flashcard.tsx` | Flip card component |
-| `src/components/Quiz.tsx` | Multiple choice quiz |
-| `src/components/MatchingGame.tsx` | Memory matching game |
-| `src/components/ListeningGame.tsx` | Audio-based quiz |
-| `src/components/TypingGame.tsx` | Typing translation |
-| `src/components/SentenceBuilder.tsx` | Word arrangement |
-| `src/components/VerbPractice.tsx` | Conjugation quiz |
-| `src/lib/audio.ts` | Web Speech API + sound effects |
-
-## Routes
+## Routes (16 pages)
 
 | Route | Feature |
 |-------|---------|
-| `/` | Home dashboard |
+| `/` | Dashboard |
 | `/learn/[category]` | Flashcards + Quiz |
-| `/quiz` | Quick Quiz |
-| `/matching` | Matching Game |
+| `/quiz` | Multiple Choice Quiz |
+| `/matching` | Memory Matching |
 | `/listening` | Listening Mode |
+| `/speaking` | Speech Recognition |
 | `/typing` | Typing Mode |
+| `/hangman` | Hangman |
+| `/speed` | Speed Round (60s) |
 | `/sentences` | Sentence Builder |
 | `/verbs` | Verb Trainer |
 | `/achievements` | Achievements & Stats |
+| `/rewards` | Rewards Shop |
+| `/idioms` | Spanish Idioms |
+| `/twisters` | Tongue Twisters |
+| `/grammar` | Grammar Tips |
 
 ## Session History
 
@@ -68,4 +50,5 @@
 |------|---------|
 | Initial | Template created with base setup |
 | Mar 30, 2026 | Built ¡Aprende! with 6 categories, flashcards, quizzes, progress tracking |
-| Mar 30, 2026 | Added all remaining features: 6 new categories, 5 game modes, XP/leveling, achievements, audio, themes |
+| Mar 30, 2026 | Added 6 categories, 5 game modes, XP/leveling, achievements, audio, themes |
+| Mar 30, 2026 | Added speech recognition, hangman, speed round, calendar, idioms, twisters, rewards, grammar |
